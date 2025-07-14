@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Puutarhapalvelut – Jesper Laihinen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVIKAATIO -->
+  <nav id="mainNav">
+    <button id="menuButton" aria-label="Avaa valikko">☰</button>
+    <ul id="navLinks" class="hidden">
+      <li><a href="#home">Etusivu</a></li>
+      <li><a href="#services">Palvelut</a></li>
+      <li><a href="#calculator">Hintalaskuri</a></li>
+      <li><a href="#contact">Ota yhteyttä</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#about">Tietoa meistä</a></li>
+    </ul>
+  </nav>
+
+  <!-- ETUSIVU / TERVETULOA -->
+  <section id="home" class="sectionHome">
+    <h1>Tervetuloa Puutarhapalveluihin</h1>
+    <p>Luotettavaa ja edullista piha- ja lumityöapua – juuri sinulle.</p>
+    <!-- Voit vaihtaa taustakuvan tai tehdä videota -->
+    <div class="hero-image"></div>
+  </section>
+
+  <!-- PALVELUT -->
+ <section id="services" class="sectionServices">
+  <h2>Palvelumme</h2>
+  <ul>
+    <li><strong>Nurmikon leikkuu</strong> – tarkka ja huolellinen leikkaus (€/m²)</li>
+    <li><strong>Harjaus / Haravointi</strong> – piha siistiksi helposti (€/m²)</li>
+    <li><strong>Pensaiden trimmaus</strong> – pituuden mukaan hinnoiteltu (€/m)</li>
+    <li><strong>Lumityöt</strong> – kiinteä kerta- tai kausihinta</li>
+  </ul>
+  <p>Hinnat sisältävät kotitalousvähennyksen 35 %.</p>
+</section>
+
+
+ <!-- HINTALASKURI -->
+<section id="calculator" class="sectionCalculator">
+  <h2>Hintalaskuri</h2>
+  <form id="priceForm">
+    <label for="area">Tontin koko (m²):</label>
+    <input type="number" id="area" name="area" min="1" required />
+
+    <label for="bushLength">Pensaiden pituus (m):</label>
+    <input type="number" id="bushLength" name="bushLength" min="0" step="0.1" value="0" />
+
+    <div class="service-options">
+      <!-- Päivitetty palvelulista -->
+      <label><input type="checkbox" name="service" value="nurmikko" /> Nurmikon leikkuu</label>
+      <label><input type="checkbox" name="service" value="haravointi" /> Harjaus / Haravointi</label>
+      <label><input type="checkbox" name="service" value="pensaat" /> Pensaiden trimmaus</label>
+      <label><input type="checkbox" name="service" value="lumi" /> Lumityöt</label>
+    </div>
+
+    <button type="button" onclick="laskeHinta()">Laske hinta</button>
+  </form>
+  <p id="priceResult">Kokonaishinta: -</p>
+  <p id="priceNote"><em>Hintaan sisältyy kotitalousvähennys 35 %.</em></p>
+</section>
+
+  <!-- OTA YHTEYTTÄ -->
+  <section id="contact" class="sectionContact">
+    <h2>Ota yhteyttä</h2>
+    <form action="https://formspree.io/f/moqgljaj" method="POST">
+      <label for="name">Nimi:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">Sähköposti:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="message">Viesti:</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Lähetä</button>
+    </form>
+
+    <p>Puhelin: 040 123 4567</p>
+    <p>Sähköposti: <a href="mailto:jesper.laihinen@gmail.com">jesper.laihinen@gmail.com</a></p>
+
+    <!-- Voit lisätä kartan esim. Google Maps iframellä -->
+  </section>
+
+  <!-- MAKSUTIEDOT -->
+  <section id="payment" class="sectionPayment">
+    <h2>Maksutiedot</h2>
+    <p>Voit maksaa työn jälkeen MobilePaylla tai käteisellä.</p>
+    <p>MobilePay-numero: <strong>040 123 4567</strong></p>
+    <img src="mobilepay_qr.png" alt="MobilePay QR-koodi" width="200" />
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="sectionFaq">
+    <h2>Usein kysytyt kysymykset</h2>
+    <details>
+      <summary>Miten kotitalousvähennys toimii?</summary>
+      <p>Voit saada 35 % vähennyksen palvelun hinnasta verotuksessa.</p>
+    </details>
+    <details>
+      <summary>Mitä työajat sisältävät?</summary>
+      <p>Työajat sisältävät kaikki pihatyöt, sopimuksen mukaan.</p>
+    </details>
+  </section>
+
+  <!-- TIETOA MEISTÄ -->
+  <section id="about" class="sectionAbout">
+    <h2>Tietoa meistä</h2>
+    <p>Yritys perustettu 2025, tavoitteena luotettavat ja laadukkaat piha- ja lumityöt.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Jesper Laihinen</p>
+  </footer>
+
+  <script>
+ // Hinnat €/m² tai €/m (pensaat)
+const hinnat = {
+  nurmikko: 1.0,    // €/m²
+  haravointi: 0.5,  // €/m²
+  pensaat: 10.0,    // €/m (pensaiden pituus)
+  lumi: 20.0        // €/kerta (tontin kokoon perustuen, oletetaan yksi kerta / koko tontti)
+};
+
+function laskeHinta() {
+  const area = parseFloat(document.getElementById('area').value);
+  if (isNaN(area) || area <= 0) {
+    alert('Anna tontin koko oikeassa muodossa!');
+    return;
+  }
+
+  const bushLength = parseFloat(document.getElementById('bushLength').value);
+  if (isNaN(bushLength) || bushLength < 0) {
+    alert('Anna pensaiden pituus oikein (0 tai enemmän)!');
+    return;
+  }
+
+  const palvelut = document.querySelectorAll('input[name="service"]:checked');
+  if (palvelut.length === 0) {
+    alert('Valitse vähintään yksi palvelu!');
+    return;
+  }
+
+  let kokonaisHinta = 0;
+
+  palvelut.forEach(palvelu => {
+    switch (palvelu.value) {
+      case 'nurmikko':
+        kokonaisHinta += hinnat.nurmikko * area;
+        break;
+      case 'haravointi':
+        kokonaisHinta += hinnat.haravointi * area;
+        break;
+      case 'pensaat':
+        kokonaisHinta += hinnat.pensaat * bushLength;
+        break;
+      case 'lumi':
+        kokonaisHinta += hinnat.lumi;  // yksi kiinteä hinta
+        break;
+    }
+  });
+
+  // Kotitalousvähennys 35 %
+  const hintaKotitalousvahennys = kokonaisHinta * 0.65;
+
+  document.getElementById('priceResult').innerText = 
+    `Kokonaishinta: ${hintaKotitalousvahennys.toFixed(2)} € (sis. 35 % kotitalousvähennyksen)`;
+}
+
+
+    // Navigaation valikon toiminnallisuus mobiilissa
+    const menuButton = document.getElementById('menuButton');
+    const navLinks = document.getElementById('navLinks');
+    menuButton.addEventListener('click', () => {
+      navLinks.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
 

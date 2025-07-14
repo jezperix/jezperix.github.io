@@ -8,7 +8,7 @@ const hinnat = {
 
 // Menu painike (liukuvalikko)
 const menuButton = document.getElementById('menuButton');
-const sideMenu = document.getElementById('sideMenu');
+const sideMenu = document.getElementById('navLinks'); // Huom: tämä ID pitää olla <ul id="navLinks">
 
 menuButton.addEventListener('click', () => {
   sideMenu.classList.toggle('open');
@@ -70,7 +70,4 @@ function laskeHinta() {
 
   document.getElementById('taxCredit').innerText =
     `Kotitalousvähennyksen osuus: ${kotitalousvahennys.toFixed(2)} €`;
-  
-  document.getElementById('menuButton').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
+}

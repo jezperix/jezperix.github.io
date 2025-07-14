@@ -70,4 +70,7 @@ function laskeHinta() {
 
   document.getElementById('taxCredit').innerText =
     `Kotitalousvähennyksen osuus: ${kotitalousvahennys.toFixed(2)} €`;
-}
+  
+  document.getElementById('menuButton').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});

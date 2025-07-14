@@ -1,17 +1,80 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Viherveikot – Puutarhapalvelut</title>
-  </head>
-  <body>
-    <h1>Tervetuloa!</h1>
-    <p>Tarjoan edullisia ja luotettavia puutarhapalveluja.</p>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puutarhapalvelut – Jesper Laihinen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Puutarhapalvelut</h1>
+    <p>Luotettavaa ja edullista piha- ja lumityöapua</p>
+  </header>
+
+  <section id="services">
+    <h2>Palvelut</h2>
     <ul>
       <li>Nurmikon leikkuu</li>
-      <li>Hedelmätarhan hoito</li>
-      <li>Pensasaidan leikkaus</li>
+      <li>Harjaus / Haravointi</li>
+      <li>Pensaiden trimmaus</li>
+      <li>Lumityöt</li>
+      <li>Yleinen siistiminen</li>
     </ul>
-    <p>Ota yhteyttä: <a href="mailto:sinun.email@esimerkki.com">sinun.email@esimerkki.com</a></p>
-  </body>
+  </section>
+
+  <section id="calculator">
+    <h2>Hintalaskuri</h2>
+    <form id="priceForm">
+      <label>Nurmikon leikkuu (m²): <input type="number" name="nurmikko" /></label><br />
+      <label>Haravointi (h): <input type="number" name="haravointi" /></label><br />
+      <label>Pensaiden trimmaus (m): <input type="number" name="pensaat" /></label><br />
+      <label>Lumityöt (krt): <input type="number" name="lumi" /></label><br />
+      <label>Yleinen siistiminen (h): <input type="number" name="siistiminen" /></label><br />
+      <button type="button" onclick="laskeHinta()">Laske hinta</button>
+    </form>
+    <p id="totalPrice">Kokonaishinta: -</p>
+  </section>
+
+  <section id="contact">
+    <h2>Ota yhteyttä</h2>
+    <form action="https://formspree.io/f/moqgljaj" method="POST">
+      <label>Nimi: <input type="text" name="name" required /></label><br />
+      <label>Sähköposti: <input type="email" name="email" required /></label><br />
+      <label>Viesti:<br /><textarea name="message" required></textarea></label><br />
+      <button type="submit">Lähetä</button>
+    </form>
+  </section>
+
+  <section id="payment">
+    <h2>Maksutiedot</h2>
+    <p>Voit maksaa työn jälkeen MobilePaylla tai käteisellä.</p>
+    <!-- Voit lisätä tähän myöhemmin QR-koodin tai PayPal-napin -->
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Jesper Laihinen</p>
+  </footer>
+
+  <script>
+    // Tähän voit syöttää hinnat kun ne ovat tiedossa
+    const hinnat = {
+      nurmikko: 1.0, // € per m2
+      haravointi: 30.0, // € per h
+      pensaat: 10.0, // € per m
+      lumi: 20.0, // € per kerta
+      siistiminen: 25.0 // € per h
+    };
+
+    function laskeHinta() {
+      const lomake = document.forms["priceForm"];
+      let summa = 0;
+      for (let kentta in hinnat) {
+        const maara = parseFloat(lomake[kentta].value) || 0;
+        summa += maara * hinnat[kentta];
+      }
+      document.getElementById("totalPrice").innerText = `Kokonaishinta: ${summa.toFixed(2)} €`;
+    }
+  </script>
+</body>
 </html>

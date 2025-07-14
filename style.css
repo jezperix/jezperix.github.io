@@ -8,6 +8,43 @@ body {
   color: #2c3e50;
   line-height: 1.6;
 }
+#menuButton {
+  font-size: 1.5rem;
+  padding: 0.8rem 1rem;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  border-radius: 5px;
+}
+
+#sideMenu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #388e3c;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 4rem;
+  z-index: 1000;
+}
+
+#sideMenu a {
+  display: block;
+  padding: 1rem 2rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+#sideMenu a:hover {
+  background-color: #2e7d32;
+}
 
 header {
   background-color: #4caf50;

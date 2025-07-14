@@ -8,9 +8,10 @@ const hinnat = {
 
 // Menu painike (liukuvalikko)
 const menuButton = document.getElementById('menuButton');
-const navLinks = document.getElementById('navLinks');
+const sideMenu = document.getElementById('sideMenu');
+
 menuButton.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+  sideMenu.classList.toggle('open');
 });
 
 // Näytä/piilota pensaiden pituus -kenttä valinnan mukaan

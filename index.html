@@ -177,7 +177,7 @@ const hinnat = {
     });
 
     const kotitalousvahennys = kokonaisHinta * 0.35;
-    
+    const maksettava = kokonaisHinta - kotitalousvahennys;
 
     document.getElementById('priceResult').innerText =
       `Kokonaishinta: ${kokonaisHinta.toFixed(2)} €`;

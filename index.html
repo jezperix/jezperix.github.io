@@ -6,7 +6,27 @@
   <title>Puutarhapalvelut – Jesper Laihinen</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+  <script>
+  function toggleMenu() {
+    const menu = document.getElementById("sideMenu");
+    if (menu.style.width === "250px") {
+      menu.style.width = "0";
+    } else {
+      menu.style.width = "250px";
+    }
+  }
+</script>
+
 <body>
+  <div id="menuButton" onclick="toggleMenu()">☰ Valikko</div>
+
+<nav id="sideMenu">
+  <a href="#services">Palvelut</a>
+  <a href="#calculator">Hintalaskuri</a>
+  <a href="#contact">Yhteydenotto</a>
+  <a href="#payment">Maksutiedot</a>
+</nav>
+
   <header>
     <h1>Puutarhapalvelut</h1>
     <p>Luotettavaa ja edullista piha- ja lumityöapua</p>

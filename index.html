@@ -7,14 +7,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="menuButton" onclick="toggleMenu()">☰ Valikko</div>
-  <nav id="sideMenu">
-    <a href="#services">Palvelut</a>
-    <a href="#calculator">Hintalaskuri</a>
-    <a href="#contact">Yhteydenotto</a>
-    <a href="#payment">Maksutiedot</a>
-  </nav>
-
   <header>
     <h1>Puutarhapalvelut</h1>
     <p>Luotettavaa ja edullista piha- ja lumityöapua</p>
@@ -34,11 +26,14 @@
   <section id="calculator">
     <h2>Hintalaskuri</h2>
     <form id="priceForm">
-      <label>Nurmikon leikkuu (m²): <input type="number" name="nurmikko" /></label><br />
-      <label>Haravointi (h): <input type="number" name="haravointi" /></label><br />
-      <label>Pensaiden trimmaus (m): <input type="number" name="pensaat" /></label><br />
-      <label>Lumityöt (krt): <input type="number" name="lumi" /></label><br />
-      <label>Yleinen siistiminen (h): <input type="number" name="siistiminen" /></label><br />
+      <label>Tontin koko (m²): <input type="number" id="area" required /></label>
+      <div id="serviceGrid">
+        <label><input type="checkbox" name="service" value="nurmikko"> Nurmikon leikkuu</label>
+        <label><input type="checkbox" name="service" value="haravointi"> Haravointi</label>
+        <label><input type="checkbox" name="service" value="pensaat"> Pensaiden trimmaus</label>
+        <label><input type="checkbox" name="service" value="lumi"> Lumityöt</label>
+        <label><input type="checkbox" name="service" value="siistiminen"> Yleinen siistiminen</label>
+      </div>
       <button type="button" onclick="laskeHinta()">Laske hinta</button>
     </form>
     <p id="totalPrice">Kokonaishinta: -</p>
@@ -69,30 +64,28 @@
 
   <script>
     const hinnat = {
-      nurmikko: 1.0, // € per m2
-      haravointi: 30.0, // € per h
-      pensaat: 10.0, // € per m
-      lumi: 20.0, // € per kerta
-      siistiminen: 25.0 // € per h
+      nurmikko: 1.0,       // € per m2
+      haravointi: 30.0,    // € per 100 m2
+      pensaat: 15.0,       // € per 100 m2
+      lumi: 20.0,          // € per 100 m2
+      siistiminen: 25.0    // € per 100 m2
     };
 
     function laskeHinta() {
-      const lomake = document.forms["priceForm"];
+      const area = parseFloat(document.getElementById("area").value) || 0;
+      const selectedServices = document.querySelectorAll("input[name='service']:checked");
       let summa = 0;
-      for (let kentta in hinnat) {
-        const maara = parseFloat(lomake[kentta].value) || 0;
-        summa += maara * hinnat[kentta];
-      }
-      document.getElementById("totalPrice").innerText = `Kokonaishinta: ${summa.toFixed(2)} €`;
-    }
 
-    function toggleMenu() {
-      const menu = document.getElementById("sideMenu");
-      if (menu.style.width === "250px") {
-        menu.style.width = "0";
-      } else {
-        menu.style.width = "250px";
-      }
+      selectedServices.forEach(service => {
+        const key = service.value;
+        if (key === "nurmikko") {
+          summa += hinnat[key] * area;
+        } else {
+          summa += hinnat[key] * (area / 100);
+        }
+      });
+
+      document.getElementById("totalPrice").innerText = `Kokonaishinta: ${summa.toFixed(2)} €`;
     }
   </script>
 </body>

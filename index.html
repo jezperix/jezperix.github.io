@@ -39,6 +39,7 @@
   <section id="contact">
     <h2>Ota yhteyttä</h2>
     <form action="https://formspree.io/f/moqgljaj" method="POST">
+      <!-- Vaihda tähän haluamasi sähköpostiosoite Formspree-palvelussa -->
       <label>Nimi: <input type="text" name="name" required /></label><br />
       <label>Sähköposti: <input type="email" name="email" required /></label><br />
       <label>Viesti:<br /><textarea name="message" required></textarea></label><br />
@@ -49,7 +50,9 @@
   <section id="payment">
     <h2>Maksutiedot</h2>
     <p>Voit maksaa työn jälkeen MobilePaylla tai käteisellä.</p>
-    <!-- Voit lisätä tähän myöhemmin QR-koodin tai PayPal-napin -->
+    <p>MobilePay-numero: <strong>040 123 4567</strong></p>
+    <img src="mobilepay_qr.png" alt="MobilePay QR-koodi" width="200" />
+    <!-- Voit vaihtaa QR-kuvan tiedostolla "mobilepay_qr.png" -->
   </section>
 
   <footer>
@@ -57,7 +60,6 @@
   </footer>
 
   <script>
-    // Tähän voit syöttää hinnat kun ne ovat tiedossa
     const hinnat = {
       nurmikko: 1.0, // € per m2
       haravointi: 30.0, // € per h

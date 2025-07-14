@@ -1,1 +1,175 @@
+/* Perus tyylit */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f6fff5;
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+/* Navigaatio */
+#mainNav {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.8rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+#mainNav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+#mainNav ul.hidden {
+  display: none;
+}
+
+#mainNav li {
+  display: inline;
+}
+
+#mainNav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#menuButton {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none; /* Näytetään mobiilissa */
+}
+
+/* Hero-kuva */
+.sectionHome {
+  background: url('garden.jpg') no-repeat center center/cover;
+  height: 300px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 0 5px #000;
+}
+
+/* Palvelut */
+.sectionServices ul {
+  list-style-type: square;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.sectionServices li {
+  margin: 0.7rem 0;
+}
+
+/* Hintalaskuri */
+.sectionCalculator {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #dcedc8;
+  border-radius: 8px;
+}
+
+.service-options label {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+/* Ota yhteyttä */
+.sectionContact {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.sectionContact form label {
+  display: block;
+  margin-top: 1rem;
+}
+
+.sectionContact input,
+.sectionContact textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Maksutiedot */
+.sectionPayment {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #c8e6c9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.sectionPayment img {
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+
+/* FAQ */
+.sectionFaq {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.sectionFaq details {
+  margin-bottom: 1rem;
+}
+
+/* Tietoa meistä */
+.sectionAbout {
+  max-width: 600px;
+  margin: 2rem auto 4rem;
+  padding: 1rem;
+  background-color: #dcedc8;
+  border-radius: 8px;
+}
+
+/* Footer */
+footer {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Responsiivisuus */
+@media (max-width: 768px) {
+  #mainNav ul {
+    display: none;
+    flex-direction: column;
+    background-color: #4caf50;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 3.5rem;
+    padding: 0.5rem 0;
+  }
+  #mainNav ul.hidden {
+    display: none;
+  }
+  #mainNav ul:not(.hidden) {
+    display: flex;
+  }
+  #menuButton {
+    display: inline-block;
+  }
+}
 

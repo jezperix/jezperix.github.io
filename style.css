@@ -52,10 +52,14 @@ h2, h1 {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  z-index: 1001;
+  z-index: 1100;
   display: block;
+   transition: left 0.3s ease;
 }
-
+/* Kun valikko on auki, siirrä menu-nappi oikealle */
+.sideMenu.open + #menuButton {
+  left: 260px; /* Siirrä napin paikkaa – leveys + vähän väliä */
+}
 .sideMenu {
   display: flex; /* Tee elementistä joustava */
   flex-direction: column; /* Järjestä sisältö pystysuunnassa */

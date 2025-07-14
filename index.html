@@ -21,6 +21,18 @@
     </ul>
   </nav>
 
+  <nav id="mainNav">
+  <button id="menuButton" aria-label="Avaa valikko">☰</button>
+  <ul id="navLinks" class="sideMenu">
+    <li><a href="#home">Etusivu</a></li>
+    <li><a href="#services">Palvelut</a></li>
+    <li><a href="#calculator">Hintalaskuri</a></li>
+    <li><a href="#contact">Ota yhteyttä</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#about">Tietoa meistä</a></li>
+  </ul>
+</nav>
+
   <!-- ETUSIVU / TERVETULOA -->
   <section id="home" class="sectionHome">
     <h1>Tervetuloa Puutarhapalveluihin</h1>
@@ -156,7 +168,12 @@ const hinnat = {
       alert('Valitse vähintään yksi palvelu!');
       return;
     }
+  const menuButton = document.getElementById('menuButton');
+  const navLinks = document.getElementById('navLinks');
 
+  menuButton.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
     let kokonaisHinta = 0;
 
     palvelut.forEach(palvelu => {

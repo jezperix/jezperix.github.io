@@ -49,23 +49,24 @@
     <label for="area">Tontin koko (m²):</label>
     <input type="number" id="area" name="area" min="1" required />
 
-    <label for="bushLength">Pensaiden pituus (m):</label>
-    <input type="number" id="bushLength" name="bushLength" min="0" step="0.1" value="0" />
-
-    <div class="service-options">
-      <!-- Päivitetty palvelulista -->
-      <label><input type="checkbox" name="service" value="nurmikko" /> Nurmikon leikkuu</label>
-      <label><input type="checkbox" name="service" value="haravointi" /> Harjaus / Haravointi</label>
-      <label><input type="checkbox" name="service" value="pensaat" /> Pensaiden trimmaus</label>
+    <div>
+      <label><input type="checkbox" name="service" value="nurmikko" /> Nurmikon leikkuu</label><br />
+      <label><input type="checkbox" name="service" value="haravointi" /> Harjaus / Haravointi</label><br />
+      <label><input type="checkbox" id="pensaatCheckbox" name="service" value="pensaat" /> Pensaiden trimmaus</label><br />
       <label><input type="checkbox" name="service" value="lumi" /> Lumityöt</label>
+    </div>
+
+    <div id="pensaatInputContainer" style="display:none; margin-top: 0.5rem;">
+      <label for="bushLength">Pensaiden pituus (m):</label>
+      <input type="number" id="bushLength" name="bushLength" min="0" step="0.1" value="0" />
     </div>
 
     <button type="button" onclick="laskeHinta()">Laske hinta</button>
   </form>
   <p id="priceResult">Kokonaishinta: -</p>
-  <p id="priceNote"><em>Hintaan sisältyy kotitalousvähennys 35 %.</em></p>
+  <p id="taxCredit" style="font-style: italic; color: #2e7d32;"></p>
 </section>
-
+  
   <!-- OTA YHTEYTTÄ -->
   <section id="contact" class="sectionContact">
     <h2>Ota yhteyttä</h2>
@@ -122,65 +123,70 @@
   <script>
  // Hinnat €/m² tai €/m (pensaat)
 const hinnat = {
-  nurmikko: 1.0,    // €/m²
-  haravointi: 0.5,  // €/m²
-  pensaat: 10.0,    // €/m (pensaiden pituus)
-  lumi: 20.0        // €/kerta (tontin kokoon perustuen, oletetaan yksi kerta / koko tontti)
-};
+    nurmikko: 1.0,    // €/m²
+    haravointi: 0.5,  // €/m²
+    pensaat: 10.0,    // €/m (pensaiden pituus)
+    lumi: 20.0        // €/kerta (kiinteä)
+  };
 
-function laskeHinta() {
-  const area = parseFloat(document.getElementById('area').value);
-  if (isNaN(area) || area <= 0) {
-    alert('Anna tontin koko oikeassa muodossa!');
-    return;
-  }
-
-  const bushLength = parseFloat(document.getElementById('bushLength').value);
-  if (isNaN(bushLength) || bushLength < 0) {
-    alert('Anna pensaiden pituus oikein (0 tai enemmän)!');
-    return;
-  }
-
-  const palvelut = document.querySelectorAll('input[name="service"]:checked');
-  if (palvelut.length === 0) {
-    alert('Valitse vähintään yksi palvelu!');
-    return;
-  }
-
-  let kokonaisHinta = 0;
-
-  palvelut.forEach(palvelu => {
-    switch (palvelu.value) {
-      case 'nurmikko':
-        kokonaisHinta += hinnat.nurmikko * area;
-        break;
-      case 'haravointi':
-        kokonaisHinta += hinnat.haravointi * area;
-        break;
-      case 'pensaat':
-        kokonaisHinta += hinnat.pensaat * bushLength;
-        break;
-      case 'lumi':
-        kokonaisHinta += hinnat.lumi;  // yksi kiinteä hinta
-        break;
-    }
+  // Näytä/piilota pensaiden pituus -kenttä valinnan mukaan
+  document.getElementById('pensaatCheckbox').addEventListener('change', function() {
+    const pensaatInput = document.getElementById('pensaatInputContainer');
+    pensaatInput.style.display = this.checked ? 'block' : 'none';
   });
 
-  // Kotitalousvähennys 35 %
-  const hintaKotitalousvahennys = kokonaisHinta * 0.65;
+  function laskeHinta() {
+    const area = parseFloat(document.getElementById('area').value);
+    if (isNaN(area) || area <= 0) {
+      alert('Anna tontin koko oikeassa muodossa!');
+      return;
+    }
 
-  document.getElementById('priceResult').innerText = 
-    `Kokonaishinta: ${hintaKotitalousvahennys.toFixed(2)} € (sis. 35 % kotitalousvähennyksen)`;
-}
+    const pensaatChecked = document.getElementById('pensaatCheckbox').checked;
+    let bushLength = 0;
+    if (pensaatChecked) {
+      bushLength = parseFloat(document.getElementById('bushLength').value);
+      if (isNaN(bushLength) || bushLength < 0) {
+        alert('Anna pensaiden pituus oikein (0 tai enemmän)!');
+        return;
+      }
+    }
 
+    const palvelut = document.querySelectorAll('input[name="service"]:checked');
+    if (palvelut.length === 0) {
+      alert('Valitse vähintään yksi palvelu!');
+      return;
+    }
 
-    // Navigaation valikon toiminnallisuus mobiilissa
-    const menuButton = document.getElementById('menuButton');
-    const navLinks = document.getElementById('navLinks');
-    menuButton.addEventListener('click', () => {
-      navLinks.classList.toggle('hidden');
+    let kokonaisHinta = 0;
+
+    palvelut.forEach(palvelu => {
+      switch (palvelu.value) {
+        case 'nurmikko':
+          kokonaisHinta += hinnat.nurmikko * area;
+          break;
+        case 'haravointi':
+          kokonaisHinta += hinnat.haravointi * area;
+          break;
+        case 'pensaat':
+          kokonaisHinta += hinnat.pensaat * bushLength;
+          break;
+        case 'lumi':
+          kokonaisHinta += hinnat.lumi;
+          break;
+      }
     });
-  </script>
+
+    const kotitalousvahennys = kokonaisHinta * 0.35;
+    const maksettava = kokonaisHinta - kotitalousvahennys;
+
+    document.getElementById('priceResult').innerText =
+      `Kokonaishinta: ${kokonaisHinta.toFixed(2)} €`;
+
+    document.getElementById('taxCredit').innerText =
+      `Kotitalousvähennyksen osuus: -${kotitalousvahennys.toFixed(2)} € (maksettava: ${maksettava.toFixed(2)} €)`;
+  }
+</script>
 </body>
 </html>
 

@@ -57,8 +57,7 @@ h2, h1 {
 }
 
 .sideMenu {
-  display: flex;
-  flex-direction: column;
+  block-direction: column;
   list-style: none;
   margin: 0;
   padding: 2rem 1rem;

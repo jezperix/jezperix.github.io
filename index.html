@@ -38,7 +38,6 @@
     <li><strong>Pensaiden trimmaus</strong> – pituuden mukaan hinnoiteltu (€/m)</li>
     <li><strong>Lumityöt</strong> – kiinteä kerta- tai kausihinta</li>
   </ul>
-  <p>Hinnat sisältävät kotitalousvähennyksen 35 %.</p>
 </section>
 
 
@@ -178,7 +177,7 @@ const hinnat = {
     });
 
     const kotitalousvahennys = kokonaisHinta * 0.35;
-    const maksettava = kokonaisHinta - kotitalousvahennys;
+    
 
     document.getElementById('priceResult').innerText =
       `Kokonaishinta: ${kokonaisHinta.toFixed(2)} €`;

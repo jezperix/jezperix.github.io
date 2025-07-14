@@ -1,4 +1,5 @@
-  <script>
+  js
+    
  // Hinnat €/m² tai €/m (pensaat)
 const hinnat = {
     nurmikko: 1.0,    // €/m²

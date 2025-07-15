@@ -72,7 +72,6 @@ function laskeHinta() {
     `Kotitalousvähennyksen osuus: ${kotitalousvahennys.toFixed(2)} €`;
 
   // Sulje menu, kun käyttäjä klikkaa jotain linkkiä valikossa
-  document.addEventListener('DOMContentLoaded', () => {
 const sideMenuLinks = document.querySelectorAll('.sideMenu a');
 
 sideMenuLinks.forEach(link => {

@@ -70,13 +70,16 @@ function laskeHinta() {
 
   document.getElementById('taxCredit').innerText =
     `Kotitalousvähennyksen osuus: ${kotitalousvahennys.toFixed(2)} €`;
+}
 
-  // Sulje menu, kun käyttäjä klikkaa jotain linkkiä valikossa
-const sideMenuLinks = document.querySelectorAll('.sideMenu a');
+// === Lisäys: sulje valikko kun linkkiä klikataan ===
+document.addEventListener('DOMContentLoaded', () => {
+  const sideMenu = document.getElementById('navLinks');
+  const sideMenuLinks = document.querySelectorAll('#navLinks a');
 
-sideMenuLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    sideMenu.classList.remove('open'); // Suljetaan menu
+  sideMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      sideMenu.classList.remove('open');
+    });
   });
 });
-  

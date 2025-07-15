@@ -216,24 +216,81 @@ footer {
 
 /* Responsiivisuus */
 @media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 0;
+  }
+
+  h1, h2 {
+    font-size: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  #mainNav {
+    padding: 1rem;
+    text-align: center;
+  }
+
   #mainNav ul {
-    display: none;
+    display: none; /* Piilotetaan vaakasuora menu */
     flex-direction: column;
     background-color: #4caf50;
     position: absolute;
     width: 100%;
     left: 0;
-    top: 3.5rem;
+    top: 4rem;
     padding: 0.5rem 0;
   }
-  #mainNav ul.hidden {
-    display: none;
-  }
+
   #mainNav ul:not(.hidden) {
     display: flex;
   }
+
   #menuButton {
-    display: inline-block;
+    display: block;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+  }
+
+  .sideMenu {
+    width: 80vw;
+    left: -80vw;
+  }
+
+  .sideMenu.open {
+    left: 0;
+  }
+
+  .sideMenu.open + #menuButton {
+    left: 80vw;
+  }
+
+  .sectionHome {
+    height: 200px;
+    font-size: 1.2rem;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .sectionCalculator,
+  .sectionContact,
+  .sectionPayment,
+  .sectionAbout,
+  .sectionFaq {
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .sectionContact input,
+  .sectionContact textarea {
+    font-size: 1rem;
+  }
+
+  footer {
+    font-size: 0.9rem;
   }
 }
+
 

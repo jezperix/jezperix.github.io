@@ -51,7 +51,7 @@ h2, h1 {
   cursor: pointer;
   position: fixed;
   top: 1rem;
-  left: 1rem;
+  left: 2rem;
   z-index: 1100;
   display: block;
    transition: left 0.3s ease;
@@ -71,7 +71,7 @@ h2, h1 {
   position: fixed;
   top: 0;
   left: -250px; /* Piilotettu vasemmalle */
-  width: 320px;
+  width: 340px;
   height: 100%;
   overflow-y: auto;
   transition: left 0.3s ease;

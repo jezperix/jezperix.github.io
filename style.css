@@ -1,4 +1,4 @@
-/* Perus tyylit */
+mitään muutosta ei tapahtunu tarkistatko äsken katsotut kohdat: /* Perus tyylit */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -58,19 +58,20 @@ h2, h1 {
 }
 /* Kun valikko on auki, siirrä menu-nappi oikealle */
 .sideMenu.open + #menuButton {
-  left: 90px; /* Siirrä napin paikkaa – leveys + vähän väliä */
+  left: 260px; /* Siirrä napin paikkaa – leveys + vähän väliä */
 }
 .sideMenu {
-  display: flex;
-  flex-direction: column;
+  display: flex; /* Tee elementistä joustava */
+  flex-direction: column; /* Järjestä sisältö pystysuunnassa */
   list-style: none;
   margin: 0;
-  padding: 5rem 1rem 2rem;
-  background: url('pensas-tausta.png') no-repeat left top / cover;
+  padding: 2rem 1rem;
+  padding-top: 5rem; /* Lisää tilaa ylös */
+  background-color: #388e3c;
   position: fixed;
   top: 0;
-  left: -90px; /* Piilotettu vasemmalle */
-  width: 90px;
+  left: -250px; /* Piilotettu vasemmalle */
+  width: 320px;
   height: 100%;
   overflow-y: auto;
   transition: left 0.3s ease;
@@ -226,13 +227,14 @@ footer {
   }
 
   /* SideMenu pienemmällä näytöllä */
-.sideMenu {
-  width: 90px;
-  left: -90px;
-  padding: 5rem 1rem 2rem;
-  background: url('pensas-tausta.png') no-repeat left top / cover;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-}
+  .sideMenu {
+    width: 85vw; /* Näkyvä vain noin 70% ruudusta */
+    left: -70vw; /* Piilotettu vasemmalle aluksi */
+    padding: 4rem 1.5rem; /* Tilavampi sisältö */
+    background-color: #388e3c; /* Varmistetaan että tausta näkyy */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Varjo erottamaan sen taustasta */
+  }
+
   /* Kun auki, siirretään näkyviin */
   .sideMenu.open {
     left: 0;
@@ -257,6 +259,3 @@ footer {
     overflow-x: hidden;
   }
 }
-
-
-

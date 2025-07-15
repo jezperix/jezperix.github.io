@@ -216,36 +216,7 @@ footer {
 
 /* Responsiivisuus */
 @media (max-width: 768px) {
-  body {
-    font-size: 16px;
-    padding: 0;
-  }
-
-  h1, h2 {
-    font-size: 1.5rem;
-    padding: 0 1rem;
-  }
-
-  #mainNav {
-    padding: 1rem;
-    text-align: center;
-  }
-
-  #mainNav ul {
-    display: none; /* Piilotetaan vaakasuora menu */
-    flex-direction: column;
-    background-color: #4caf50;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 4rem;
-    padding: 0.5rem 0;
-  }
-
-  #mainNav ul:not(.hidden) {
-    display: flex;
-  }
-
+  /* Menu-painike näkyviin pienillä näytöillä */
   #menuButton {
     display: block;
     top: 1rem;
@@ -253,44 +224,39 @@ footer {
     z-index: 1100;
   }
 
+  /* SideMenu pienemmällä näytöllä */
   .sideMenu {
-    width: 80vw;
-    left: -80vw;
+    width: 70vw; /* Näkyvä vain noin 70% ruudusta */
+    left: -70vw; /* Piilotettu vasemmalle aluksi */
+    padding: 4rem 1.5rem; /* Tilavampi sisältö */
+    background-color: #388e3c; /* Varmistetaan että tausta näkyy */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Varjo erottamaan sen taustasta */
   }
 
+  /* Kun auki, siirretään näkyviin */
   .sideMenu.open {
     left: 0;
   }
 
+  /* Siirretään hampurilaisnappi valikon mukana */
   .sideMenu.open + #menuButton {
-    left: 80vw;
+    left: 71vw; /* Siirretään napin paikka valikon oikealle puolelle */
   }
 
-  .sectionHome {
-    height: 200px;
+  /* Korjataan linkkien näkyvyys ja väli */
+  .sideMenu li a {
     font-size: 1.2rem;
-    padding: 1rem;
-    text-align: center;
+    padding: 0.8rem 0;
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
-  .sectionCalculator,
-  .sectionContact,
-  .sectionPayment,
-  .sectionAbout,
-  .sectionFaq {
-    margin: 1rem;
-    padding: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .sectionContact input,
-  .sectionContact textarea {
-    font-size: 1rem;
-  }
-
-  footer {
-    font-size: 0.9rem;
+  /* Varmistetaan ettei muu sisältö jää alle */
+  body {
+    overflow-x: hidden;
   }
 }
+
 
 

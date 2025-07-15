@@ -74,6 +74,7 @@ h2, h1 {
   width: 340px;
   height: 100%;
   overflow-y: auto;
+  pointer-events: none; /* Disable clicks when closed */
   transition: left 0.3s ease;
   z-index: 1000;
 }
@@ -97,6 +98,7 @@ h2, h1 {
 /* Kun valikko avataan: siirretään näkyviin */
 .sideMenu.open {
   left: 0;
+  pointer-events: auto; /* Enable clicks when open */
 }
 
 /* Linkit tulevat näkyviin yksitellen sulavasti */
@@ -231,6 +233,7 @@ footer {
     width: 85vw; /* Näkyvä vain noin 70% ruudusta */
     left: -70vw; /* Piilotettu vasemmalle aluksi */
     padding: 4rem 1.5rem; /* Tilavampi sisältö */
+    pointer-events: none; /* Disable clicks when closed */
     background-color: #388e3c; /* Varmistetaan että tausta näkyy */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Varjo erottamaan sen taustasta */
   }
@@ -238,6 +241,7 @@ footer {
   /* Kun auki, siirretään näkyviin */
   .sideMenu.open {
     left: 0;
+    pointer-events: auto; /* Enable clicks when open */
   }
 
   /* Siirretään hampurilaisnappi valikon mukana */

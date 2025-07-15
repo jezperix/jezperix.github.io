@@ -249,6 +249,8 @@ footer {
   .sideMenu li a {
     font-size: 1.2rem;
     padding: 0.8rem 0;
+    padding-left: 1.5rem; /* siirrä oikealle */
+    margin-top: 0.5rem;   /* siirrä alaspäin */
     opacity: 1;
     transform: none;
     transition: none;

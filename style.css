@@ -67,7 +67,8 @@ h2, h1 {
   margin: 0;
   padding: 2rem 1rem;
   padding-top: 5rem; /* Lisää tilaa ylös */
-  background-color: #388e3c;
+  background:url('website-menu-desings.png') no-repeat left top;
+  background-size: 100% auto; /* tai contain/auto, tilanteesta riippuen */
   position: fixed;
   top: 0;
   left: -250px; /* Piilotettu vasemmalle */

@@ -50,8 +50,8 @@ h2, h1 {
   color: white;
   cursor: pointer;
   position: fixed;
-  top: 1rem;
-  left: 2rem;
+  top: 1.7rem;
+  left: 1rem;
   z-index: 1100;
   display: block;
    transition: left 0.3s ease;
@@ -224,14 +224,14 @@ footer {
   /* Menu-painike näkyviin pienillä näytöillä */
   #menuButton {
     display: block;
-    top: 1rem;
+    top: 1.7rem;
     left: 1rem;
     z-index: 1100;
   }
 
   /* SideMenu pienemmällä näytöllä */
   .sideMenu {
-    width: 85vw; /* Näkyvä vain noin 70% ruudusta */
+    width: 96vw; /* Näkyvä vain noin 70% ruudusta */
     left: -70vw; /* Piilotettu vasemmalle aluksi */
     padding: 4rem 1.5rem; /* Tilavampi sisältö */
     pointer-events: none; /* Disable clicks when closed */

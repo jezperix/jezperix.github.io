@@ -17,11 +17,11 @@ h2, h1 {
   background:url('images/website-header-desktop.png');
   background-size: cover;
   background-position: center;
-  height: 200px; /* Säädä tämän mukaan */
-  padding: 2rem 1rem;
+  height: 160px; /* Säädä tämän mukaan */
+  padding: 1rem 1rem;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -1rem;
   width: 100%;
   z-index: 1000;
 }

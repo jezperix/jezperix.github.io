@@ -70,7 +70,7 @@ h2, h1 {
   margin: 0;
   padding: 2rem 1rem;
   padding-top: 5rem; /* Lisää tilaa ylös */
-  background:url('website-menu-desings.png') no-repeat left top;
+  background:url('images/website-menu-desings.png') no-repeat left top;
   background-size: 100% auto; /* tai contain/auto, tilanteesta riippuen */
   position: fixed;
   top: 0;
@@ -238,7 +238,7 @@ footer {
     left: -70vw; /* Piilotettu vasemmalle aluksi */
     padding: 4rem 1.5rem; /* Tilavampi sisältö */
     pointer-events: none; /* Disable clicks when closed */
-    background:url('website-menu-desings.png') no-repeat left top;
+    background:url('images/website-menu-desings.png') no-repeat left top;
     background-size: 100% auto; /* tai contain/auto, tilanteesta riippuen 
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Varjo erottamaan sen taustasta */
   }

@@ -5,6 +5,7 @@ body {
   background-color: #f6fff5;
   color: #2c3e50;
   line-height: 1.5;
+  margin-top: 120px; /* navin korkeus + vähän väliä */
 }
 
 h2, h1 {
@@ -16,8 +17,10 @@ h2, h1 {
   background-color: #4caf50;
   color: white;
   padding: 2rem 1rem;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
 }
 

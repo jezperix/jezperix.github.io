@@ -226,6 +226,18 @@ footer {
 
 /* Responsiivisuus */
 @media (max-width: 768px) {
+  #mainNav {
+    background-image: url(images/website-header.png);
+    background-size: cover;
+    background-position: center;
+    height: 50px;
+    padding: 1rem 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
   /* Menu-painike näkyviin pienillä näytöillä */
   #menuButton {
     display: block;

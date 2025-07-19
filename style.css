@@ -14,7 +14,7 @@ h2, h1 {
 
 /* Navigaatio */
 #mainNav {
-  background:url('images/website-header.png');
+  background:url('images/website-header-desktop.png');
   background-size: cover;
   background-position: center;
   height: 200px; /* Säädä tämän mukaan */

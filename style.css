@@ -14,8 +14,10 @@ h2, h1 {
 
 /* Navigaatio */
 #mainNav {
-  background-color: #4caf50;
-  color: white;
+  background-image: url('images/website-header.png');
+  background-size: cover;
+  background-position: center;
+  height: 200px; /* Säädä tämän mukaan */
   padding: 2rem 1rem;
   position: fixed;
   top: 0;

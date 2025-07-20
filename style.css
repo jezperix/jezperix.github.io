@@ -48,6 +48,18 @@ h2, h1 {
   font-weight: bold;
 }
 
+#languageSelector {
+  position: absolute;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 1200;
+  top: 1rem;
+  right: 1rem;
+}
+
 #menuButton {
   font-size: 1.5rem;
   background: none;
@@ -238,6 +250,17 @@ footer {
     width: 100%;
     z-index: 1000;
   }
+  
+    #languageSelector {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1rem;
+  }
+
+  .sideMenu.open #languageSelector {
+    display: block;
+  }
+}
   /* Menu-painike näkyviin pienillä näytöillä */
   #menuButton {
     display: block;

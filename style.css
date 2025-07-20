@@ -235,7 +235,11 @@ footer {
   text-align: center;
   padding: 1rem;
 }
-
+  /*vain tietokoneille*/
+@media (min-width: 768px) {
+  #languageSelectorMobile {
+    display:none;
+}
 /* Responsiivisuus */
 @media (max-width: 768px) {
   #mainNav {
@@ -295,7 +299,7 @@ footer {
   /* Varmistetaan ettei muu sisältö jää alle */
   body {
     overflow-x: hidden;
-}
+  }
   #languageSelectorDesktop {
     display: none;
   }

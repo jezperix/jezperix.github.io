@@ -48,8 +48,7 @@ h2, h1 {
   font-weight: bold;
 }
   /* Kielivalitsimet */
-#languageSelectorDesktop,
-#languageSelectorMobile {
+#languageSelectorDesktop{
   padding: 0.4rem 0.8rem;
   font-size: 1rem;
   border-radius: 5px;
@@ -62,11 +61,6 @@ h2, h1 {
     right: 1rem;
     z-index: 1200;
     display: block;
-  }
-
-  #languageSelectorMobile,
-  .language-select-wrapper {
-    display: none;
   }
 }
 #menuButton {

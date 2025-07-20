@@ -290,7 +290,7 @@ footer {
   /* Korjataan linkkien näkyvyys ja väli */
   .sideMenu li a {
     font-size: 1.2rem;
-    padding: 0.8rem 0;
+    padding: 0rem 0;
     padding-left: 1.5rem; /* siirrä oikealle */
     margin-top: 0.5rem;   /* siirrä alaspäin */
     opacity: 1;

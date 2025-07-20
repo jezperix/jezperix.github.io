@@ -8,22 +8,31 @@
 </head>
 <body>
   
-  <!-- Kielivalitsin -->
-<select id="languageSelector">
-  <option value="fi">Suomi</option>
-  <option value="en">English</option>
-</select>
+<!-- NAVIKAATIO -->
+<nav id="mainNav">
+  <!-- Kielivalitsin tietokoneelle -->
+  <select id="languageSelectorDesktop">
+    <option value="fi">Suomi</option>
+    <option value="en">English</option>
+  </select>
 
-  <!-- NAVIKAATIO -->
-  <nav id="mainNav">
-<ul id="navLinks" class="sideMenu">
-  <li><a href="#home">Etusivu</a></li>
-  <li><a href="#services">Palvelut</a></li>
-  <li><a href="#calculator">Hintalaskuri</a></li>
-  <li><a href="#contact">Ota yhteyttä</a></li>
-  <li><a href="#faq">FAQ</a></li>
-  <li><a href="#about">Tietoa meistä</a></li>
+  <ul id="navLinks" class="sideMenu">
+    <li><a href="#home">Etusivu</a></li>
+    <li><a href="#services">Palvelut</a></li>
+    <li><a href="#calculator">Hintalaskuri</a></li>
+    <li><a href="#contact">Ota yhteyttä</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#about">Tietoa meistä</a></li>
+
+    <!-- Kielivalitsin puhelimelle -->
+    <li class="language-select-wrapper">
+      <select id="languageSelectorMobile">
+        <option value="fi">Suomi</option>
+        <option value="en">English</option>
+      </select>
+    </li>
   </ul>
+
   <button id="menuButton">☰</button>
 </nav>
 

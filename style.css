@@ -47,21 +47,19 @@ h2, h1 {
   text-decoration: none;
   font-weight: bold;
 }
-  /* Kielivalitsimet */
-#languageSelectorDesktop{
+/* Kielivalitsin desktop (oikea yläkulma) */
+#languageSelectorDesktop {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1200;
   padding: 0.4rem 0.8rem;
   font-size: 1rem;
   border-radius: 5px;
   border: none;
   background-color: rgba(255, 255, 255, 0.9);
+}
 
-  #languageSelectorDesktop {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1200;
-    display: block;
-  }
 }
 #menuButton {
   font-size: 1.5rem;

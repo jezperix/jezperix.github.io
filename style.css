@@ -228,6 +228,13 @@ h2, h1 {
   border-radius: 8px;
 }
 
+  /*vain tietokoneille*/
+@media (min-width: 768px) {
+  #languageSelectorMobile {
+    display:none;
+  }
+} 
+
 /* Footer */
 footer {
   background-color: #4caf50;
@@ -235,11 +242,7 @@ footer {
   text-align: center;
   padding: 1rem;
 }
-  /*vain tietokoneille*/
-@media (min-width: 768px) {
-  #languageSelectorMobile {
-    display:none;
-}
+
 /* Responsiivisuus */
 @media (max-width: 768px) {
   #mainNav {
@@ -270,7 +273,7 @@ footer {
     padding: 4rem 1.5rem; /* Tilavampi sisältö */
     pointer-events: none; /* Disable clicks when closed */
     background:url('images/website-menu-desings.png') no-repeat left top;
-    background-size: 100% auto; /* tai contain/auto, tilanteesta riippuen 
+    background-size: 100% auto; /* tai contain/auto, tilanteesta riippuen*/
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Varjo erottamaan sen taustasta */
   }
 

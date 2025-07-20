@@ -56,6 +56,8 @@ h2, h1 {
   border: none;
   background-color: rgba(255, 255, 255, 0.85);
   z-index: 1200;
+  top: 1rem;
+  right: 1rem;
 }
 
 #menuButton {

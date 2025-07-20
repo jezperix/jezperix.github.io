@@ -274,7 +274,6 @@ footer {
     pointer-events: none; /* Disable clicks when closed */
     background:url('images/website-menu-desings.png') no-repeat left top;
     background-size: 100% auto; /* tai contain/auto, tilanteesta riippuen*/
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Varjo erottamaan sen taustasta */
   }
 
   /* Kun auki, siirretään näkyviin */

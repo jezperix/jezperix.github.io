@@ -255,6 +255,7 @@ footer {
     position: fixed;
     bottom: 1.5rem;
     left: 1rem;
+    display: none;
   }
 
   .sideMenu.open #languageSelector {

@@ -13,7 +13,7 @@ h2, h1 {
 }
 
 /* Navigaatio */
- #mainNav {
+#mainNav {
   background:url('images/website-header-desktop.png');
   background-size: cover;
   background-position: center;
@@ -24,37 +24,6 @@ h2, h1 {
   left: -1rem;
   width: 100%;
   z-index: 1000;
-}
-
-.language-select-bar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 48px;
-  background: rgba(255,255,255,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  z-index: 1201;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  padding-right: 2rem;
-}
-
-#languageSelector {
-  font-size: 1.1rem;
-  padding: 0.4rem 1.2rem;
-  border-radius: 6px;
-  border: 1px solid #4caf50;
-  background: #f6fff5;
-  color: #2c3e50;
-  font-weight: bold;
-  box-shadow: 0 1px 4px rgba(44,62,80,0.07);
-  transition: border-color 0.2s;
-}
-#languageSelector:focus {
-  border-color: #388e3c;
-  outline: none;
 }
 
 #mainNav ul {
@@ -166,8 +135,8 @@ h2, h1 {
 .sideMenu.open li:nth-child(6) a { --delay: 0.3s; }
 
 /* Hero-kuva */
- .sectionHome {
-  background: url('images/website-header-desktop.png') no-repeat center center/cover;
+.sectionHome {
+  background: url('garden.jpg') no-repeat center center/cover;
   height: 300px;
   color: white;
   display: flex;
@@ -261,17 +230,12 @@ h2, h1 {
 
   /*vain tietokoneille*/
 @media (min-width: 768px) {
-  /* Piilota vanhat kielivalitsimet */
-  #languageSelectorMobile, #languageSelectorDesktop {
+  #languageSelectorMobile {
     display:none;
   }
 } 
 
 /* Footer */
-
-html {
-  scroll-behavior: smooth;
-}
 footer {
   background-color: #4caf50;
   color: white;

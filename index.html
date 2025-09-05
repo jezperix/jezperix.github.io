@@ -36,33 +36,10 @@
   <button id="menuButton">☰</button>
 </nav>
 
-  <!-- NAVIKAATIO -->
-  <nav id="mainNav" aria-label="Päävalikko">
-    <ul id="navLinks" class="sideMenu">
-      <li><a href="#home" data-i18n="nav_home">Etusivu</a></li>
-      <li><a href="#services" data-i18n="nav_services">Palvelut</a></li>
-      <li><a href="#calculator" data-i18n="nav_calculator">Hintalaskuri</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Ota yhteyttä</a></li>
-      <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
-      <li><a href="#about" data-i18n="nav_about">Tietoa meistä</a></li>
-    </ul>
-    <button id="menuButton">☰</button>
-  </nav>
-
-  <!-- Yhtenäinen kielivalitsin navin yläpuolelle -->
-  <div class="language-select-bar">
-    <select id="languageSelector">
-      <option value="fi">Suomi</option>
-      <option value="en">English</option>
-    </select>
-  </div>
-
   <!-- ETUSIVU / TERVETULOA -->
   <section id="home" class="sectionHome">
     <h1>Tervetuloa Puutarhapalveluihin</h1>
     <p>Luotettavaa ja edullista piha- ja lumityöapua – juuri sinulle.</p>
-    <h1 data-i18n="home_title">Tervetuloa Puutarhapalveluihin</h1>
-    <p data-i18n="home_desc">Luotettavaa ja edullista piha- ja lumityöapua – juuri sinulle.</p>
     <!-- Voit vaihtaa taustakuvan tai tehdä videota -->
     <div class="hero-image"></div>
   </section>
@@ -76,50 +53,37 @@
     <li><strong>Pensaiden trimmaus</strong> – pituuden mukaan hinnoiteltu (€/m)</li>
     <li><strong>Lumityöt</strong> – kiinteä kerta- tai kausihinta</li>
   </ul>
-    <h2 data-i18n="services_title">Palvelumme</h2>
-    <ul>
-      <li data-i18n="services_lawn"><strong>Nurmikon leikkuu</strong> – tarkka ja huolellinen leikkaus (€/m²)</li>
-      <li data-i18n="services_rake"><strong>Harjaus / Haravointi</strong> – piha siistiksi helposti (€/m²)</li>
-      <li data-i18n="services_bush"><strong>Pensaiden trimmaus</strong> – pituuden mukaan hinnoiteltu (€/m)</li>
-      <li data-i18n="services_snow"><strong>Lumityöt</strong> – kiinteä kerta- tai kausihinta</li>
-    </ul>
 </section>
 
 
  <!-- HINTALASKURI -->
 <section id="calculator" class="sectionCalculator">
   <h2>Hintalaskuri</h2>
-    <h2 data-i18n="calculator_title">Hintalaskuri</h2>
   <form id="priceForm">
-  <label for="area">Tontin koko (m²):</label>
-  <input type="number" id="area" name="area" min="1" required />
-  <span id="areaError" style="color:red; font-size:0.9em;"></span>
+    <label for="area">Tontin koko (m²):</label>
+    <input type="number" id="area" name="area" min="1" required />
 
     <div>
-        <label><input type="checkbox" name="service" value="nurmikko" /> <span data-i18n="calculator_lawn">Nurmikon leikkuu</span></label><br />
-        <label><input type="checkbox" name="service" value="haravointi" /> <span data-i18n="calculator_rake">Harjaus / Haravointi</span></label><br />
-        <label><input type="checkbox" id="pensaatCheckbox" name="service" value="pensaat" /> <span data-i18n="calculator_bush">Pensaiden trimmaus</span></label><br />
-        <label><input type="checkbox" name="service" value="lumi" /> <span data-i18n="calculator_snow">Lumityöt</span></label>
+      <label><input type="checkbox" name="service" value="nurmikko" /> Nurmikon leikkuu</label><br />
+      <label><input type="checkbox" name="service" value="haravointi" /> Harjaus / Haravointi</label><br />
+      <label><input type="checkbox" id="pensaatCheckbox" name="service" value="pensaat" /> Pensaiden trimmaus</label><br />
+      <label><input type="checkbox" name="service" value="lumi" /> Lumityöt</label>
     </div>
 
     <div id="pensaatInputContainer" style="display:none; margin-top: 0.5rem;">
       <label for="bushLength">Pensaiden pituus (m):</label>
       <input type="number" id="bushLength" name="bushLength" min="0" step="0.1" value="0" />
-  <span id="bushError" style="color:red; font-size:0.9em;"></span>
-        <label for="bushLength" data-i18n="calculator_bushlength">Pensaiden pituus (m):</label>
     </div>
 
     <button type="button" onclick="laskeHinta()">Laske hinta</button>
-      <button type="button" onclick="laskeHinta()" data-i18n="calculator_btn">Laske hinta</button>
   </form>
-    <p id="priceResult" data-i18n="calculator_result">Kokonaishinta: -</p>
-    <p id="taxCredit" style="font-style: italic; color: #2e7d32;"></p>
+  <p id="priceResult">Kokonaishinta: -</p>
+  <p id="taxCredit" style="font-style: italic; color: #2e7d32;"></p>
 </section>
   
   <!-- OTA YHTEYTTÄ -->
   <section id="contact" class="sectionContact">
     <h2>Ota yhteyttä</h2>
-      <h2 data-i18n="contact_title">Ota yhteyttä</h2>
     <form action="https://formspree.io/f/moqgljaj" method="POST">
       <label for="name">Nimi:</label>
       <input type="text" id="name" name="name" required />
@@ -130,11 +94,11 @@
       <label for="message">Viesti:</label>
       <textarea id="message" name="message" required></textarea>
 
-        <button type="submit" data-i18n="contact_btn">Lähetä</button>
+      <button type="submit">Lähetä</button>
     </form>
 
-      <p data-i18n="contact_phone">Puhelin: 040 123 4567</p>
-      <p data-i18n="contact_email2">Sähköposti: <a href="mailto:jesper.laihinen@gmail.com">jesper.laihinen@gmail.com</a></p>
+    <p>Puhelin: 040 123 4567</p>
+    <p>Sähköposti: <a href="mailto:jesper.laihinen@gmail.com">jesper.laihinen@gmail.com</a></p>
 
     <!-- Voit lisätä kartan esim. Google Maps iframellä -->
   </section>
@@ -144,9 +108,6 @@
     <h2>Maksutiedot</h2>
     <p>Voit maksaa työn jälkeen MobilePaylla tai käteisellä.</p>
     <p>MobilePay-numero: <strong>040 123 4567</strong></p>
-    <h2 data-i18n="payment_title">Maksutiedot</h2>
-    <p data-i18n="payment_desc">Voit maksaa työn jälkeen MobilePaylla tai käteisellä.</p>
-    <p data-i18n="payment_mobilepay">MobilePay-numero: <strong>040 123 4567</strong></p>
     <img src="mobilepay_qr.png" alt="MobilePay QR-koodi" width="200" />
   </section>
   
@@ -161,28 +122,16 @@
       <summary>Mitä työajat sisältävät?</summary>
       <p>Työajat sisältävät kaikki pihatyöt, sopimuksen mukaan.</p>
     </details>
-      <h2 data-i18n="faq_title">Usein kysytyt kysymykset</h2>
-      <details>
-        <summary data-i18n="faq_q1">Miten kotitalousvähennys toimii?</summary>
-        <p data-i18n="faq_a1">Voit saada 35 % vähennyksen palvelun hinnasta verotuksessa.</p>
-      </details>
-      <details>
-        <summary data-i18n="faq_q2">Mitä työajat sisältävät?</summary>
-        <p data-i18n="faq_a2">Työajat sisältävät kaikki pihatyöt, sopimuksen mukaan.</p>
-      </details>
   </section>
 
   <!-- TIETOA MEISTÄ -->
   <section id="about" class="sectionAbout">
     <h2>Tietoa meistä</h2>
     <p>Yritys perustettu 2025, tavoitteena luotettavat ja laadukkaat piha- ja lumityöt.</p>
-    <h2 data-i18n="about_title">Tietoa meistä</h2>
-    <p data-i18n="about_desc">Yritys perustettu 2025, tavoitteena luotettavat ja laadukkaat piha- ja lumityöt.</p>
   </section>
 
   <footer>
     <p>&copy; 2025 Jesper Laihinen</p>
-    <p data-i18n="footer">&copy; 2025 Jesper Laihinen</p>
   </footer>
   <script src="script.js"></script>
 </body>

@@ -82,4 +82,82 @@ document.addEventListener('DOMContentLoaded', () => {
       sideMenu.classList.remove('open');
     });
   });
+
+  // Sähköpostin piilotus spämmiroboteilta
+  const emailContainer = document.getElementById('emailContainer');
+  const email = 'jesper.laihinen' + '@' + 'gmail.com';
+  emailContainer.innerHTML = 'Sähköposti: <a href="mailto:' + email + '">' + email + '</a>';
+
+  // Formspree-lomakkeen validointi ja AJAX-lähetys
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+      // Nimi
+      const name = contactForm.name.value.trim();
+      if (name.length < 2) {
+        document.getElementById('nameError').innerText = 'Anna vähintään 2 merkkiä.';
+        valid = false;
+      } else {
+        document.getElementById('nameError').innerText = '';
+      }
+      // Sähköposti
+      const email = contactForm.email.value.trim();
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailPattern.test(email)) {
+        document.getElementById('emailError').innerText = 'Anna kelvollinen sähköpostiosoite.';
+        valid = false;
+      } else {
+        document.getElementById('emailError').innerText = '';
+      }
+      // Viesti
+      const message = contactForm.message.value.trim();
+      if (message.length < 5) {
+        document.getElementById('messageError').innerText = 'Viesti liian lyhyt.';
+        valid = false;
+      } else {
+        document.getElementById('messageError').innerText = '';
+      }
+      // Honeypot
+      if (contactForm._gotcha.value) {
+        valid = false;
+      }
+      if (!valid) {
+        return false;
+      }
+      // Lähetä lomake AJAX:lla
+      const formData = new FormData(contactForm);
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          contactForm.style.display = 'none';
+          document.getElementById('formSuccess').style.display = 'block';
+          document.getElementById('formSuccess').style.color = 'green';
+          document.getElementById('formSuccess').innerText = 'Kiitos viestistäsi! Otamme yhteyttä mahdollisimman pian.';
+        } else {
+          response.json().then(data => {
+            let errorMsg = 'Lähetys epäonnistui.';
+            if (data.errors && data.errors.length > 0) {
+              errorMsg = data.errors.map(e => e.message).join(', ');
+            }
+            document.getElementById('formSuccess').style.display = 'block';
+            document.getElementById('formSuccess').style.color = 'red';
+            document.getElementById('formSuccess').innerText = errorMsg;
+          });
+        }
+      })
+      .catch(() => {
+        document.getElementById('formSuccess').style.display = 'block';
+        document.getElementById('formSuccess').style.color = 'red';
+        document.getElementById('formSuccess').innerText = 'Lähetys epäonnistui. Yritä myöhemmin uudelleen.';
+      });
+    });
+  }
 });

@@ -84,21 +84,28 @@
   <!-- OTA YHTEYTTÄ -->
   <section id="contact" class="sectionContact">
     <h2>Ota yhteyttä</h2>
-    <form action="https://formspree.io/f/moqgljaj" method="POST">
+    <form id="contactForm" action="https://formspree.io/f/moqgljaj" method="POST" autocomplete="off" novalidate>
       <label for="name">Nimi:</label>
-      <input type="text" id="name" name="name" required />
+      <input type="text" id="name" name="name" required minlength="2" />
+      <span class="error" id="nameError"></span>
 
       <label for="email">Sähköposti:</label>
-      <input type="email" id="email" name="email" required />
+      <input type="email" id="email" name="email" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+      <span class="error" id="emailError"></span>
 
       <label for="message">Viesti:</label>
-      <textarea id="message" name="message" required></textarea>
+      <textarea id="message" name="message" required minlength="5"></textarea>
+      <span class="error" id="messageError"></span>
+
+      <!-- Honeypot-kenttä bottien torjuntaan -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
       <button type="submit">Lähetä</button>
     </form>
+    <div id="formSuccess" style="display:none; color:green; font-weight:bold; margin-top:1rem;">Kiitos viestistäsi! Otamme yhteyttä mahdollisimman pian.</div>
 
     <p>Puhelin: 040 123 4567</p>
-    <p>Sähköposti: <a href="mailto:jesper.laihinen@gmail.com">jesper.laihinen@gmail.com</a></p>
+    <p id="emailContainer"></p>
 
     <!-- Voit lisätä kartan esim. Google Maps iframellä -->
   </section>

@@ -1,4 +1,13 @@
 // Service price configuration
+// Service price configuration
+// To modify prices or add new services, edit the SERVICE_PRICES object below.
+// Each service can have Finnish (fi) and English (en) names, and price fields.
+// Example for adding a new service:
+// new_service: {
+//   fi: 'Uusi palvelu',
+//   en: 'New service',
+//   price_per_m2: 1.0 // EUR per m²
+// }
 const SERVICE_PRICES = {
   grass_cutting: {
     fi: 'Nurmikon leikkaus',

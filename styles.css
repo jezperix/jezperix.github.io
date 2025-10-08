@@ -1,0 +1,102 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f6fff6;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 64px;
+  height: auto;
+  margin-right: 1em;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .header-brand {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .logo {
+    width: 48px;
+    margin-right: 0;
+    margin-bottom: 0.5em;
+  }
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  main {
+    padding: 0.5em;
+  }
+}
+}
+header {
+  background: #4caf50;
+  color: white;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav button {
+  margin-left: 1em;
+  background: #fff;
+  color: #4caf50;
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 4px;
+}
+nav button.active {
+  background: #388e3c;
+  color: #fff;
+}
+main {
+  max-width: 800px;
+  margin: 2em auto;
+  padding: 1em;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+section {
+  margin-bottom: 2em;
+}
+form label {
+  display: block;
+  margin-top: 1em;
+}
+form input, form textarea {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+form button {
+  margin-top: 1em;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0.75em 1.5em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#calc-result {
+  margin-top: 1em;
+  font-weight: bold;
+}
+footer {
+  text-align: center;
+  padding: 1em;
+  background: #e8f5e9;
+  color: #222;
+  border-top: 1px solid #c8e6c9;
+}

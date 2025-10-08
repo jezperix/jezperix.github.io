@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Puutarhapalvelut – Jesper Laihinen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+<!-- NAVIKAATIO -->
+<nav id="mainNav">
+  <!-- Kielivalitsin tietokoneelle -->
+  <select id="languageSelectorDesktop">
+    <option value="fi">Suomi</option>
+    <option value="en">English</option>
+  </select>
+
+  <ul id="navLinks" class="sideMenu">
+    <li><a href="#home">Etusivu</a></li>
+    <li><a href="#services">Palvelut</a></li>
+    <li><a href="#calculator">Hintalaskuri</a></li>
+    <li><a href="#contact">Ota yhteyttä</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#about">Tietoa meistä</a></li>
+
+    <!-- Kielivalitsin puhelimelle -->
+    <li class="language-select-wrapper">
+      <select id="languageSelectorMobile">
+        <option value="fi">Suomi</option>
+        <option value="en">English</option>
+      </select>
+    </li>
+  </ul>
+
+  <button id="menuButton">☰</button>
+</nav>
+
+  <!-- ETUSIVU / TERVETULOA -->
+  <section id="home" class="sectionHome">
+    <h1>Tervetuloa Puutarhapalveluihin</h1>
+    <p>Luotettavaa ja edullista piha- ja lumityöapua – juuri sinulle.</p>
+    <!-- Voit vaihtaa taustakuvan tai tehdä videota -->
+    <div class="hero-image"></div>
+  </section>
+
+  <!-- PALVELUT -->
+ <section id="services" class="sectionServices">
+  <h2>Palvelumme</h2>
+  <ul>
+    <li><strong>Nurmikon leikkuu</strong> – tarkka ja huolellinen leikkaus (€/m²)</li>
+    <li><strong>Harjaus / Haravointi</strong> – piha siistiksi helposti (€/m²)</li>
+    <li><strong>Pensaiden trimmaus</strong> – pituuden mukaan hinnoiteltu (€/m)</li>
+    <li><strong>Lumityöt</strong> – kiinteä kerta- tai kausihinta</li>
+  </ul>
+</section>
+
+
+ <!-- HINTALASKURI -->
+<section id="calculator" class="sectionCalculator">
+  <h2>Hintalaskuri</h2>
+  <form id="priceForm">
+    <label for="area">Tontin koko (m²):</label>
+    <input type="number" id="area" name="area" min="1" required />
+
+    <div>
+      <label><input type="checkbox" name="service" value="nurmikko" /> Nurmikon leikkuu</label><br />
+      <label><input type="checkbox" name="service" value="haravointi" /> Harjaus / Haravointi</label><br />
+      <label><input type="checkbox" id="pensaatCheckbox" name="service" value="pensaat" /> Pensaiden trimmaus</label><br />
+      <label><input type="checkbox" name="service" value="lumi" /> Lumityöt</label>
+    </div>
+
+    <div id="pensaatInputContainer" style="display:none; margin-top: 0.5rem;">
+      <label for="bushLength">Pensaiden pituus (m):</label>
+      <input type="number" id="bushLength" name="bushLength" min="0" step="0.1" value="0" />
+    </div>
+
+    <button type="button" onclick="laskeHinta()">Laske hinta</button>
+  </form>
+  <p id="priceResult">Kokonaishinta: -</p>
+  <p id="taxCredit" style="font-style: italic; color: #2e7d32;"></p>
+</section>
+  
+  <!-- OTA YHTEYTTÄ -->
+  <section id="contact" class="sectionContact">
+    <h2>Ota yhteyttä</h2>
+  <form id="contactForm" action="https://formspree.io/f/xzzaydbz" method="POST" autocomplete="off" novalidate>
+      <label for="name">Nimi:</label>
+      <input type="text" id="name" name="name" required minlength="2" />
+      <span class="error" id="nameError"></span>
+
+      <label for="email">Sähköposti:</label>
+      <input type="email" id="email" name="email" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+      <span class="error" id="emailError"></span>
+
+      <label for="message">Viesti:</label>
+      <textarea id="message" name="message" required minlength="5"></textarea>
+      <span class="error" id="messageError"></span>
+
+      <!-- Honeypot-kenttä bottien torjuntaan -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+      <button type="submit">Lähetä</button>
+    </form>
+    <div id="formSuccess" style="display:none; color:green; font-weight:bold; margin-top:1rem;">Kiitos viestistäsi! Otamme yhteyttä mahdollisimman pian.</div>
+
+    <p>Puhelin: 040 123 4567</p>
+    <p id="emailContainer"></p>
+
+    <!-- Voit lisätä kartan esim. Google Maps iframellä -->
+  </section>
+
+  <!-- MAKSUTIEDOT -->
+  <section id="payment" class="sectionPayment">
+    <h2>Maksutiedot</h2>
+    <p>Voit maksaa työn jälkeen MobilePaylla tai käteisellä.</p>
+    <p>MobilePay-numero: <strong>040 123 4567</strong></p>
+    <img src="mobilepay_qr.png" alt="MobilePay QR-koodi" width="200" />
+  </section>
+  
+  <!-- FAQ -->
+  <section id="faq" class="sectionFaq">
+    <h2>Usein kysytyt kysymykset</h2>
+    <details>
+      <summary>Miten kotitalousvähennys toimii?</summary>
+      <p>Voit saada 35 % vähennyksen palvelun hinnasta verotuksessa.</p>
+    </details>
+    <details>
+      <summary>Mitä työajat sisältävät?</summary>
+      <p>Työajat sisältävät kaikki pihatyöt, sopimuksen mukaan.</p>
+    </details>
+  </section>
+
+  <!-- TIETOA MEISTÄ -->
+  <section id="about" class="sectionAbout">
+    <h2>Tietoa meistä</h2>
+    <p>Yritys perustettu 2025, tavoitteena luotettavat ja laadukkaat piha- ja lumityöt.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Jesper Laihinen</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+

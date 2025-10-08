@@ -1,3 +1,55 @@
+/* Responsive layout for header and content */
+@media (max-width: 900px) {
+  .header-top {
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-left {
+    flex-direction: row;
+    align-items: center;
+    margin-right: 0;
+    margin-bottom: 1em;
+  }
+  .lang-box {
+    flex-direction: row;
+    margin-left: 1em;
+    margin-top: 0;
+    gap: 0.5em;
+  }
+  .header-center {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 1em 0 1em 0;
+    border-radius: 0 0 16px 16px;
+  }
+  .header-top {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+  }
+  .logo {
+    width: 70px;
+    margin-bottom: 0.5em;
+  }
+  .shortcut-menu {
+    flex-direction: column;
+    gap: 1em;
+    margin-bottom: 0.5em;
+  }
+  .content-box {
+    padding: 1.2em 0.5em;
+    max-width: 98vw;
+    margin: 1em auto;
+  }
+  .header-center h1 {
+    font-size: 2em;
+  }
+}
 /* Main content feature boxes */
 .content-box {
   background: #fff;
@@ -9,7 +61,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 .content-box h2 {
   font-size: 2em;

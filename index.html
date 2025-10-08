@@ -10,45 +10,25 @@
 </head>
 <body>
   <header>
-    <div class="header-brand">
-  <img src="Logo(official_1).svg" alt="Viherveikot logo: house, sun, lawnmower" class="logo" />
-      <h1>Viherveikot</h1>
+    <div class="header-top">
+      <div class="header-left">
+        <img src="Logo(official_1).svg" alt="Viherveikot logo: house, sun, lawnmower" class="logo" />
+        <div class="lang-box">
+          <button id="lang-fi">Suomi</button>
+          <button id="lang-en">English</button>
+        </div>
+      </div>
+      <div class="header-center">
+        <h1>Viherveikot</h1>
+        <nav class="shortcut-menu">
+          <a href="#services" class="shortcut">Palvelut</a>
+          <a href="#calculator" class="shortcut">Laskuri</a>
+          <a href="#contact" class="shortcut">Yhteystiedot</a>
+        </nav>
+      </div>
     </div>
-    <nav style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; gap: 2em;">
-      <div style="display: flex; gap: 2em; justify-content: center; flex: 1;">
-        <a href="#services" class="shortcut">Palvelut</a>
-        <a href="#calculator" class="shortcut">Laskuri</a>
-        <a href="#contact" class="shortcut">Yhteystiedot</a>
-      </div>
-      <div style="display: flex; gap: 0.5em;">
-        <button id="lang-fi">Suomi</button>
-        <button id="lang-en">English</button>
-      </div>
-    </nav>
   </header>
   <main>
-    <section id="services">
-      <h2>Palvelut</h2>
-      <ul id="service-list"></ul>
-    <header>
-      <div class="header-top">
-        <div class="header-left">
-          <img src="Logo(official_1).svg" alt="Viherveikot logo: house, sun, lawnmower" class="logo" />
-          <div class="lang-box">
-            <button id="lang-fi">Suomi</button>
-            <button id="lang-en">English</button>
-          </div>
-        </div>
-        <div class="header-center">
-          <h1>Viherveikot</h1>
-          <nav class="shortcut-menu">
-            <a href="#services" class="shortcut">Palvelut</a>
-            <a href="#calculator" class="shortcut">Laskuri</a>
-            <a href="#contact" class="shortcut">Yhteystiedot</a>
-          </nav>
-        </div>
-      </div>
-    </header>
     <main>
       <section id="services" class="content-box">
         <h2>Palvelut</h2>
@@ -75,8 +55,6 @@
         </form>
       </section>
     </main>
-    </section>
-  </main>
   <footer>
     <p>&copy; 2025 Viherveikot</p>
   </footer>

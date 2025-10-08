@@ -1,3 +1,25 @@
+/* Shortcut menu styles */
+#shortcut-menu {
+  display: flex;
+  gap: 1em;
+  margin-left: 2em;
+}
+.shortcut {
+  background: #fff;
+  color: #388e3c;
+  text-decoration: none;
+  padding: 0.5em 1.2em;
+  border-radius: 20px;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, Arial, sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+  transition: background 0.2s, color 0.2s;
+}
+.shortcut:hover {
+  background: #81c784;
+  color: #fff;
+}
 body {
   font-family: Arial, sans-serif;
   background: #f6fff6;

@@ -1,3 +1,21 @@
+/* Main content feature boxes */
+.content-box {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(76,175,80,0.08);
+  padding: 2.5em 2em;
+  margin: 2em auto;
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.content-box h2 {
+  font-size: 2em;
+  margin-bottom: 1em;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, Arial, sans-serif;
+}
 /* Header layout styles */
 header {
   background: linear-gradient(90deg, #c8e6c9 70%, #a5d6a7 100%);

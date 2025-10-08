@@ -49,6 +49,32 @@
         </div>
       </div>
     </header>
+    <main>
+      <section id="services" class="content-box">
+        <h2>Palvelut</h2>
+        <ul id="service-list"></ul>
+      </section>
+      <section id="calculator" class="content-box">
+        <h2>Hinta-arviolaskuri</h2>
+        <form id="calc-form">
+          <!-- Dynamic service inputs will be inserted here -->
+          <button type="submit">Laske hinta</button>
+        </form>
+        <div id="calc-result"></div>
+      </section>
+      <section id="contact" class="content-box">
+        <h2>Ota yhteyttä</h2>
+        <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <label for="name">Nimi:</label>
+          <input type="text" id="name" name="name" required>
+          <label for="email">Sähköposti:</label>
+          <input type="email" id="email" name="email" required>
+          <label for="message">Viesti:</label>
+          <textarea id="message" name="message" required></textarea>
+          <button type="submit">Lähetä</button>
+        </form>
+      </section>
+    </main>
     </section>
   </main>
   <footer>

@@ -30,27 +30,25 @@
     <section id="services">
       <h2>Palvelut</h2>
       <ul id="service-list"></ul>
-    </section>
-    <section id="calculator">
-      <h2>Hinta-arviolaskuri</h2>
-      <form id="calc-form">
-        <!-- Dynamic service inputs will be inserted here -->
-        <button type="submit">Laske hinta</button>
-      </form>
-      <div id="calc-result"></div>
-    </section>
-    <section id="contact">
-  <h2>Ota yhteyttä</h2>
-  <!-- To change the Formspree endpoint, replace YOUR_FORM_ID below with your actual Formspree form ID. -->
-  <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <label for="name">Nimi:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email">Sähköposti:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="message">Viesti:</label>
-        <textarea id="message" name="message" required></textarea>
-        <button type="submit">Lähetä</button>
-      </form>
+    <header>
+      <div class="header-top">
+        <div class="header-left">
+          <img src="Logo(official_1).svg" alt="Viherveikot logo: house, sun, lawnmower" class="logo" />
+          <div class="lang-box">
+            <button id="lang-fi">Suomi</button>
+            <button id="lang-en">English</button>
+          </div>
+        </div>
+        <div class="header-center">
+          <h1>Viherveikot</h1>
+          <nav class="shortcut-menu">
+            <a href="#services" class="shortcut">Palvelut</a>
+            <a href="#calculator" class="shortcut">Laskuri</a>
+            <a href="#contact" class="shortcut">Yhteystiedot</a>
+          </nav>
+        </div>
+      </div>
+    </header>
     </section>
   </main>
   <footer>

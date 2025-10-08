@@ -1,3 +1,75 @@
+/* Header layout styles */
+header {
+  background: linear-gradient(90deg, #c8e6c9 70%, #a5d6a7 100%);
+  padding: 2em 0 1.5em 0;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 6px 24px rgba(76,175,80,0.10);
+  margin-bottom: 2em;
+}
+.header-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 2em;
+}
+.logo {
+  width: 110px;
+  margin-bottom: 1em;
+}
+.lang-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-top: 0.5em;
+}
+.header-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.header-center h1 {
+  font-size: 2.8em;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, Arial, sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 0.7em;
+  margin-top: 0;
+}
+.shortcut-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin-bottom: 0.5em;
+}
+.shortcut {
+  background: #fff;
+  color: #388e3c;
+  text-decoration: none;
+  padding: 0.7em 2em;
+  border-radius: 24px;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, Arial, sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(76,175,80,0.10);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  margin: 0 0.5em;
+}
+.shortcut:hover {
+  background: #81c784;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(76,175,80,0.18);
+}
 /* Shortcut menu styles */
 
 #shortcut-menu, .shortcut-menu {
@@ -43,24 +115,6 @@ body {
   align-items: center;
 }
 
-.logo {
-  width: 64px;
-  height: auto;
-  margin-right: 1em;
-  flex-shrink: 0;
-}
-
-@media (max-width: 600px) {
-  .header-brand {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .logo {
-    width: 48px;
-    margin-right: 0;
-    margin-bottom: 0.5em;
-  }
-  header {
     flex-direction: column;
     align-items: flex-start;
   }

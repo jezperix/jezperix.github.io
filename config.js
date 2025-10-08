@@ -1,4 +1,4 @@
-// Service price configuration
+
 // Service price configuration
 // To modify prices or add new services, edit the SERVICE_PRICES object below.
 // Each service can have Finnish (fi) and English (en) names, and price fields.

@@ -3,592 +3,952 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viherveikot - Ammattitaitoista puutarhanhoitoa</title>
+    <title>ViherVeikot - Kotisi Viheralueiden Hoitajat</title>
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2e7d32',
-                        secondary: '#81c784',
-                        accent: '#ffb74d',
-                    }
-                }
-            }
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <style>
-        .language-switcher {
-            transition: all 0.3s ease;
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Nunito', sans-serif;
         }
-        .language-switcher:hover {
-            transform: scale(1.05);
+        
+        .title-font {
+            font-family: 'Fredoka One', cursive;
         }
-        .service-card {
-            transition: all 0.3s ease;
-        }
+        
         .service-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .calculator-input:focus {
-            outline: 2px solid #81c784;
+        
+        .language-selector {
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Language Switcher -->
-    <div class="fixed top-8 right-16 z-50">
-        <div class="flex space-x-2">
-            <button id="fi-btn" class="language-switcher bg-primary text-white px-3 py-1 rounded-full text-sm font-medium shadow-md">FI</button>
-            <button id="en-btn" class="language-switcher bg-gray-300 px-3 py-1 rounded-full text-sm font-medium shadow-md">EN</button>
+<body class="bg-green-50">
+    <!-- Animated Background -->
+    <div id="vanta-bg" class="fixed inset-0 -z-10"></div>
+    
+    <!-- Header with Language Selector -->
+    <header class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="http://static.photos/green/200x200/42" alt="ViherVeikot Logo" class="h-12 w-12 rounded-full">
+                <h1 class="title-font text-2xl md:text-3xl text-green-600">ViherVeikot</h1>
+            </div>
+            
+            <nav class="flex items-center space-x-4">
+                <div class="flex space-x-2">
+                    <button onclick="changeLanguage('fi')" class="language-selector px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">FI</button>
+                    <button onclick="changeLanguage('sv')" class="language-selector px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">SV</button>
+                    <button onclick="changeLanguage('en')" class="language-selector px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">EN</button>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden">
+                    <i data-feather="menu"></i>
+                </button>
+            </nav>
         </div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center space-x-4">
-                    <img src="Logo(official_1).svg" alt="Viherveikot Logo" class="h-40 w-40 rounded-full">
-                    <span class="text-primary font-bold text-xl">Viherveikot</span>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#services" class="text-gray-700 hover:text-primary transition">Palvelut</a>
-                    <a href="#calculator" class="text-gray-700 hover:text-primary transition">Hinta-arvio</a>
-                    <a href="#about" class="text-gray-700 hover:text-primary transition">Meistä</a>
-                    <a href="#contact" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Ota yhteyttä</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="menu-btn" class="text-gray-700">
-                        <i data-feather="menu"></i>
-                    </button>
-                </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-6 shadow-lg">
+            <div class="flex flex-col space-y-3">
+                <a href="#about" class="text-lg text-green-700 hover:text-green-500">Tietoa meistä</a>
+                <a href="#services" class="text-lg text-green-700 hover:text-green-500">Palvelut</a>
+                <a href="price-estimator.html" class="text-lg text-green-700 hover:text-green-500">Hinta-arvio</a>
+<a href="#contact" class="text-lg text-green-700 hover:text-green-500">Ota yhteyttä</a>
             </div>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white pb-4 px-4">
-            <a href="#services" class="block py-2 text-gray-700 hover:text-primary">Palvelut</a>
-            <a href="#calculator" class="block py-2 text-gray-700 hover:text-primary">Hinta-arvio</a>
-            <a href="#about" class="block py-2 text-gray-700 hover:text-primary">Meistä</a>
-            <a href="#contact" class="block mt-2 bg-primary text-white px-4 py-2 rounded-lg text-center hover:bg-green-700">Ota yhteyttä</a>
-        </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-r from-primary to-secondary text-white py-20">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6" data-lang="fi">Ammattitaitoista puutarhanhoitoa</h1>
-            <h1 class="text-4xl md:text-5xl font-bold mb-6 hidden" data-lang="en">Professional Garden Care Services</h1>
-            <p class="text-xl mb-8 max-w-2xl mx-auto" data-lang="fi">Teemme puutarhastanne kauniin ja hyvin hoidetun vuoden ympäri</p>
-            <p class="text-xl mb-8 max-w-2xl mx-auto hidden" data-lang="en">We make your garden beautiful and well-maintained all year round</p>
-            <a href="#contact" class="bg-accent text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-orange-400 transition inline-block" data-lang="fi">Pyydä tarjous</a>
-            <a href="#contact" class="bg-accent text-gray-900 font-bold px-6 py-3 rounded-lg hover:bg-orange-400 transition inline-block hidden" data-lang="en">Request a quote</a>
+    <section class="relative py-20 md:py-32 overflow-hidden">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="title-font text-4xl md:text-6xl text-green-700 mb-6" id="hero-title">
+                    Kotisi Viheralueiden Hoitajat
+                </h1>
+                <p class="text-xl md:text-2xl text-green-600 mb-8" id="hero-subtitle">
+                    Ammattitaitoista hoitoa puutarhanhoidosta lumityöhön - kolmen miehen tiimi, johon voit luottaa
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contact" class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                        <span id="hero-button1">Pyydä tarjous</span>
+                    </a>
+                <a href="price-estimator.html" class="px-8 py-4 bg-white hover:bg-green-50 text-green-700 font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                    <span id="hero-button2">Hinta-arvio</span>
+                </a>
+</div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-green-50 to-transparent"></div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 md:py-24 bg-white bg-opacity-90">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-3xl md:text-4xl text-green-700 mb-4" id="about-title">Tietoa Meistä</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <div class="md:w-1/2">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="http://static.photos/people/640x360/1" alt="ViherVeikot Team" class="w-full h-auto">
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold text-green-700 mb-4" id="about-subtitle">Kolme ystävää, yksi intohimo</h3>
+                    <p class="text-lg text-gray-700 mb-6" id="about-text1">
+                        Me olemme kolmen hengen tiimi, joka rakastaa viheralueiden hoitoa ja puutarhanhoitoa. Tavoitteemme on tarjota laadukasta ja luotettavaa palvelua, joka tekee asiakkaistamme tyytyväisiä.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-6" id="about-text2">
+                        Vuosien kokemuksella ja intohimolla työtämme kohtaan olemme keränneet runsaasti tietotaitoa erilaisista viheralueiden hoidon tehtävistä. Oli kyseessä sitten nurmikon leikkaus, lehtien haravointi, pensaiden leikkaus tai lumen kasaaminen, me teemme sen ammattitaidolla.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <div class="flex items-center bg-green-100 px-4 py-2 rounded-full">
+                            <i data-feather="check-circle" class="text-green-600 mr-2"></i>
+                            <span class="font-medium" id="about-feature1">Ammattitaitoa</span>
+                        </div>
+                        <div class="flex items-center bg-green-100 px-4 py-2 rounded-full">
+                            <i data-feather="check-circle" class="text-green-600 mr-2"></i>
+                            <span class="font-medium" id="about-feature2">Luotettavuus</span>
+                        </div>
+                        <div class="flex items-center bg-green-100 px-4 py-2 rounded-full">
+                            <i data-feather="check-circle" class="text-green-600 mr-2"></i>
+                            <span class="font-medium" id="about-feature3">Ystävällisyys</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800" data-lang="fi">Palvelumme</h2>
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 hidden" data-lang="en">Our Services</h2>
+    <section id="services" class="py-16 md:py-24 bg-green-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-3xl md:text-4xl text-green-700 mb-4" id="services-title">Palvelumme</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto"></div>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service 1 -->
-                <div class="service-card bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <div class="text-primary mb-4">
-                        <i data-feather="scissors" class="w-10 h-10"></i>
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="sun" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700" id="service1-title">Nurmikon leikkaus</h3>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-lang="fi">Ruohonleikkuu</h3>
-                    <h3 class="text-xl font-bold mb-2 hidden" data-lang="en">Lawn Mowing</h3>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Ammattimainen ruohonleikkuu tasaisin väliajoin koko kasvukauden ajan</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Professional lawn mowing at regular intervals throughout the growing season</p>
-                    <div class="text-secondary font-medium" data-lang="fi">Alkaen 30€/kerta</div>
-                    <div class="text-secondary font-medium hidden" data-lang="en">Starting from 30€/session</div>
+                    <p class="text-gray-700 mb-4" id="service1-desc">
+                        Ammattimainen nurmikon leikkaus ja viimeistely, joka pitää nurmikkosi terveenä ja kauniina koko kasvukauden ajan.
+                    </p>
+                    <div class="flex items-center text-green-600 font-medium">
+                        <span id="service1-price">Alkaen: 30€/kerta</span>
+                    </div>
                 </div>
                 
                 <!-- Service 2 -->
-                <div class="service-card bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <div class="text-primary mb-4">
-                        <i data-feather="cloud-snow" class="w-10 h-10"></i>
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="cloud-snow" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700" id="service2-title">Lumityöt</h3>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-lang="fi">Lumityöt</h3>
-                    <h3 class="text-xl font-bold mb-2 hidden" data-lang="en">Snow Removal</h3>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Lumien auraus ja hiekoitus, myös sorakerros (lisähintaan) estämään jäätymistä</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Snow plowing and sanding, also gravel layer (extra charge) to prevent freezing</p>
-                    <div class="text-secondary font-medium" data-lang="fi">Alkaen 50€/kerta</div>
-                    <div class="text-secondary font-medium hidden" data-lang="en">Starting from 50€/session</div>
+                    <p class="text-gray-700 mb-4" id="service2-desc">
+                        Luotettava lumen kasaaminen ja auraus talvisin. Tarjoamme säännöllistä aurauspalvelua tai tilausperusteista kasaamista.
+                    </p>
+                    <div class="flex items-center text-green-600 font-medium">
+                        <span id="service2-price">Alkaen: 40€/kerta</span>
+                    </div>
                 </div>
                 
                 <!-- Service 3 -->
-                <div class="service-card bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <div class="text-primary mb-4">
-                        <i data-feather="wind" class="w-10 h-10"></i>
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="scissors" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700" id="service3-title">Pensaiden leikkaus</h3>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-lang="fi">Lehtien haravointi</h3>
-                    <h3 class="text-xl font-bold mb-2 hidden" data-lang="en">Leaf Raking</h3>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Lehtien keräily ja hävittäminen syksyllä sekä keväisin</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Leaf collection and disposal in autumn and spring</p>
-                    <div class="text-secondary font-medium" data-lang="fi">Alkaen 40€/kerta</div>
-                    <div class="text-secondary font-medium hidden" data-lang="en">Starting from 40€/session</div>
+                    <p class="text-gray-700 mb-4" id="service3-desc">
+                        Pensaat ja pensasaitat kuntoon ammattitaidolla. Leikkaamme, muotoilemme ja raivaamme kasvustot terveiksi ja kauniiksi.
+                    </p>
+                    <div class="flex items-center text-green-600 font-medium">
+                        <span id="service3-price">Alkaen: 25€/kerta</span>
+                    </div>
                 </div>
                 
                 <!-- Service 4 -->
-                <div class="service-card bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <div class="text-primary mb-4">
-                        <i data-feather="tree" class="w-10 h-10"></i>
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="wind" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700" id="service4-title">Lehtien haravointi</h3>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-lang="fi">Pensaan leikkuu</h3>
-                    <h3 class="text-xl font-bold mb-2 hidden" data-lang="en">Bush Trimming</h3>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Pensaiden ja pensasaitojen asiallinen leikkuu ja muotoilu</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Proper trimming and shaping of bushes and hedges</p>
-                    <div class="text-secondary font-medium" data-lang="fi">Alkaen 45€/kerta</div>
-                    <div class="text-secondary font-medium hidden" data-lang="en">Starting from 45€/session</div>
+                    <p class="text-gray-700 mb-4" id="service4-desc">
+                        Syksyisin tarjoamme lehtien haravointia ja viheralueiden siistimistä, jotta pihasi pysyy siistinä ja turvallisena.
+                    </p>
+                    <div class="flex items-center text-green-600 font-medium">
+                        <span id="service4-price">Alkaen: 35€/kerta</span>
+                    </div>
                 </div>
                 
                 <!-- Service 5 -->
-                <div class="service-card bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <div class="text-primary mb-4">
-                        <i data-feather="droplet" class="w-10 h-10"></i>
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="droplet" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700" id="service5-title">Kastelu</h3>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-lang="fi">Kastelu</h3>
-                    <h3 class="text-xl font-bold mb-2 hidden" data-lang="en">Watering</h3>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Kasvien ja nurmikon säännöllinen kastelu kuivina aikoina</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Regular watering of plants and lawn during dry periods</p>
-                    <div class="text-secondary font-medium" data-lang="fi">Alkaen 25€/kerta</div>
-                    <div class="text-secondary font-medium hidden" data-lang="en">Starting from 25€/session</div>
+                    <p class="text-gray-700 mb-4" id="service5-desc">
+                        Autamme kastelussa erityisesti kesän kuivina aikoina, jotta kasvit ja nurmikko pysyvät terveinä ja viherinä.
+                    </p>
+                    <div class="flex items-center text-green-600 font-medium">
+                        <span id="service5-price">Alkaen: 20€/kerta</span>
+                    </div>
                 </div>
                 
                 <!-- Service 6 -->
-                <div class="service-card bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <div class="text-primary mb-4">
-                        <i data-feather="tool" class="w-10 h-10"></i>
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="package" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700" id="service6-title">Muut palvelut</h3>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-lang="fi">Muut puutarhatyöt</h3>
-                    <h3 class="text-xl font-bold mb-2 hidden" data-lang="en">Other Garden Works</h3>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Kysy lisää erikoispalveluistamme kuten istutuksista ja maanparannuksista</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Ask about our special services like planting and soil improvement</p>
-                    <div class="text-secondary font-medium" data-lang="fi">Hinta sopimuksen mukaan</div>
-                    <div class="text-secondary font-medium hidden" data-lang="en">Price by agreement</div>
+                    <p class="text-gray-700 mb-4" id="service6-desc">
+                        Tarjoamme myös muita viheralueiden hoitoon liittyviä palveluja, kuten multaus, lannoitus ja kasvien istutus.
+                    </p>
+                    <div class="flex items-center text-green-600 font-medium">
+                        <span id="service6-price">Hinta sopimuksen mukaan</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Calculator Section -->
-    <section id="calculator" class="py-16 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800" data-lang="fi">Hinta-arvio</h2>
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 hidden" data-lang="en">Price Estimate</h2>
+    <!-- Price Calculator Section -->
+    <section id="calculator" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-3xl md:text-4xl text-green-700 mb-4" id="calculator-title">Hinta-arvio</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto"></div>
+            </div>
             
-            <div class="bg-white p-6 md:p-8 rounded-lg shadow-md">
-                <form id="estimate-form">
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" data-lang="fi">Valitse palvelu(t):</label>
-                        <label class="block text-gray-700 mb-2 hidden" data-lang="en">Select service(s):</label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service1" name="service" value="lawn-mowing" class="mr-2 h-4 w-4 text-primary rounded">
-                                <label for="service1" data-lang="fi">Ruohonleikkuu</label>
-                                <label for="service1" class="hidden" data-lang="en">Lawn Mowing</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service2" name="service" value="snow-removal" class="mr-2 h-4 w-4 text-primary rounded">
-                                <label for="service2" data-lang="fi">Lumityöt</label>
-                                <label for="service2" class="hidden" data-lang="en">Snow Removal</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service3" name="service" value="leaf-raking" class="mr-2 h-4 w-4 text-primary rounded">
-                                <label for="service3" data-lang="fi">Lehtien haravointi</label>
-                                <label for="service3" class="hidden" data-lang="en">Leaf Raking</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service4" name="service" value="bush-trimming" class="mr-2 h-4 w-4 text-primary rounded">
-                                <label for="service4" data-lang="fi">Pensaan leikkuu</label>
-                                <label for="service4" class="hidden" data-lang="en">Bush Trimming</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service5" name="service" value="watering" class="mr-2 h-4 w-4 text-primary rounded">
-                                <label for="service5" data-lang="fi">Kastelu</label>
-                                <label for="service5" class="hidden" data-lang="en">Watering</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="service6" name="service" value="other" class="mr-2 h-4 w-4 text-primary rounded">
-                                <label for="service6" data-lang="fi">Muut työt</label>
-                                <label for="service6" class="hidden" data-lang="en">Other Works</label>
-                            </div>
-                        </div>
+            <div class="max-w-2xl mx-auto bg-green-50 rounded-xl shadow-lg p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label for="service-select" class="block text-sm font-medium text-green-700 mb-1" id="calculator-label1">Valitse palvelu</label>
+                    <select id="service-select" class="w-full px-4 py-2 rounded-lg border border-green-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <option value="30" data-min="30" data-max="80" data-rate="0.8" data-measure="area" data-unit="m²" id="service-option1">Nurmikon leikkaus</option>
+                        <option value="40" data-min="40" data-max="120" data-rate="1.2" data-measure="area" data-unit="m²" id="service-option2">Lumityöt</option>
+                        <option value="25" data-min="25" data-max="60" data-rate="0.5" data-measure="bush" data-unit="kpl" id="service-option3">Pensaiden leikkaus</option>
+                        <option value="35" data-min="35" data-max="90" data-rate="0.7" data-measure="area" data-unit="m²" id="service-option4">Lehtien haravointi</option>
+                        <option value="20" data-min="20" data-max="50" data-rate="0.3" data-measure="area" data-unit="m²" id="service-option5">Kastelu</option>
+                    </select>
+</div>
+                    <div>
+                    <label for="measurement-input" class="block text-sm font-medium text-green-700 mb-1" id="measurement-label">Pinta-ala (m²)</label>
+                    <div class="flex">
+                        <input type="number" id="measurement-input" min="1" max="1000" value="100" class="w-full px-4 py-2 rounded-l-lg border border-green-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <span id="measurement-unit" class="flex items-center px-4 bg-green-100 text-green-800 rounded-r-lg border border-l-0 border-green-300">m²</span>
                     </div>
-                    
-                    <div class="mb-6">
-                        <label for="area" class="block text-gray-700 mb-2" data-lang="fi">Nurmikon/alueen koko (m²):</label>
-                        <label for="area" class="block text-gray-700 mb-2 hidden" data-lang="en">Lawn/Area size (m²):</label>
-                        <input type="number" id="area" min="0" class="calculator-input w-full px-4 py-2 border rounded-lg focus:border-primary">
+                    <div id="additional-services" class="mt-4 hidden">
+                        <label class="block text-sm font-medium text-green-700 mb-2">Lisäpalvelut</label>
+                        <div id="service-options" class="space-y-2"></div>
                     </div>
-                    
-                    <div class="mb-6">
-                        <label for="frequency" class="block text-gray-700 mb-2" data-lang="fi">Toistuvuus:</label>
-                        <label for="frequency" class="block text-gray-700 mb-2 hidden" data-lang="en">Frequency:</label>
-                        <select id="frequency" class="calculator-input w-full px-4 py-2 border rounded-lg focus:border-primary">
-                            <option value="1" data-lang="fi">Yksittäinen kerta</option>
-                            <option value="1" class="hidden" data-lang="en">Single time</option>
-                            <option value="4" data-lang="fi">Kerran viikossa (4 kk)</option>
-                            <option value="4" class="hidden" data-lang="en">Weekly (4 months)</option>
-                            <option value="12" data-lang="fi">Kerran viikossa (12 kk)</option>
-                            <option value="12" class="hidden" data-lang="en">Weekly (12 months)</option>
-                            <option value="24" data-lang="fi">Kerran kuukaudessa (24 kk)</option>
-                            <option value="24" class="hidden" data-lang="en">Monthly (24 months)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <label class="block text-gray-700 mb-2" data-lang="fi">Lisäpalvelut:</label>
-                        <label class="block text-gray-700 mb-2 hidden" data-lang="en">Additional services:</label>
-                        <div class="flex items-center mb-2">
-                            <input type="checkbox" id="gravel" name="gravel" class="mr-2 h-4 w-4 text-primary rounded">
-                            <label for="gravel" data-lang="fi">Sorakerros lumityöhön (+20€/kerta)</label>
-                            <label for="gravel" class="hidden" data-lang="en">Gravel layer for snow removal (+20€/session)</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="waste" name="waste" class="mr-2 h-4 w-4 text-primary rounded">
-                            <label for="waste" data-lang="fi">Jätteiden kuljetus (+15€/kerta)</label>
-                            <label for="waste" class="hidden" data-lang="en">Waste transportation (+15€/session)</label>
-                        </div>
-                    </div>
-                    
-                    <button type="button" id="calculate-btn" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-green-700 transition" data-lang="fi">Laske arvio</button>
-                    <button type="button" id="calculate-btn" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-green-700 transition hidden" data-lang="en">Calculate estimate</button>
-                </form>
+</div>
+                </div>
                 
-                <div id="estimate-result" class="mt-8 p-4 bg-gray-100 rounded-lg hidden">
-                    <h3 class="text-xl font-bold mb-2 text-primary" data-lang="fi">Arvioitu hinta:</h3>
-                    <h3 class="text-xl font-bold mb-2 text-primary hidden" data-lang="en">Estimated price:</h3>
-                    <div id="price" class="text-3xl font-bold mb-2">-</div>
-                    <p class="text-gray-600" data-lang="fi">* Tämä on vain suuntaa-antava arvio. Tarkka hinta määritellään tarkemman tietojen perusteella.</p>
-                    <p class="text-gray-600 hidden" data-lang="en">* This is just an indicative estimate. The exact price will be determined based on more detailed information.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-                    <img src="http://static.photos/nature/640x360/42" alt="Viherveikot Team" class="rounded-lg shadow-md w-full">
-                </div>
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl font-bold mb-6 text-gray-800" data-lang="fi">Meistä</h2>
-                    <h2 class="text-3xl font-bold mb-6 text-gray-800 hidden" data-lang="en">About Us</h2>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Viherveikot on paikallinen puutarhanhoitoalan yritys, joka on toiminut vuodesta 2010 lähtien. Meillä on laaja kokemus kaikenlaisista puutarhanhoidon palveluista.</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Viherveikot is a local gardening company that has been operating since 2010. We have extensive experience in all kinds of garden care services.</p>
-                    <p class="text-gray-600 mb-4" data-lang="fi">Tiimimme koostuu ammattitaitoisista puutarhureista, joilla on intoa luonnon hoitamiseen. Käytämme laadukkaita työkaluja ja ympäristöystävällisiä menetelmiä.</p>
-                    <p class="text-gray-600 mb-4 hidden" data-lang="en">Our team consists of skilled gardeners with a passion for nature care. We use high-quality tools and environmentally friendly methods.</p>
-                    <div class="flex items-center text-primary mt-6">
-                        <i data-feather="check-circle" class="mr-2"></i>
-                        <span class="font-medium" data-lang="fi">Lisensoidut ja vakuutetut</span>
-                        <span class="font-medium hidden" data-lang="en">Licensed and insured</span>
-                    </div>
-                    <div class="flex items-center text-primary mt-2">
-                        <i data-feather="check-circle" class="mr-2"></i>
-                        <span class="font-medium" data-lang="fi">Laadukkaat materiaalit</span>
-                        <span class="font-medium hidden" data-lang="en">Quality materials</span>
-                    </div>
-                    <div class="flex items-center text-primary mt-2">
-                        <i data-feather="check-circle" class="mr-2"></i>
-                        <span class="font-medium" data-lang="fi">Asiakastyytyväisyys taattu</span>
-                        <span class="font-medium hidden" data-lang="en">Customer satisfaction guaranteed</span>
+                <div class="mb-6">
+                    <label for="frequency" class="block text-sm font-medium text-green-700 mb-2" id="calculator-label3">Toistuvuus</label>
+                    <div class="flex flex-wrap gap-3">
+                        <button data-freq="once" class="frequency-btn px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">Kerta</button>
+                        <button data-freq="weekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Viikottain</button>
+                        <button data-freq="biweekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">2 viikon välein</button>
+                        <button data-freq="monthly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Kuukausittain</button>
                     </div>
                 </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-inner mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-700">Perushinta:</span>
+                        <span id="base-price" class="text-lg text-green-700">30€</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2" id="extras-row" style="display: none;">
+                        <span class="text-gray-700">Lisäpalvelut:</span>
+                        <span id="extras-price" class="text-lg text-green-700">0€</span>
+                    </div>
+                    <div class="border-t border-green-200 my-2"></div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-700 font-medium">Yhteensä:</span>
+                        <span id="estimated-price" class="text-2xl font-bold text-green-700">30€</span>
+                    </div>
+<div class="text-sm text-gray-500 italic" id="calculator-note">
+                        * Tämä on vain arvio. Tarkka hinta määritellään tarkemmin paikan päällä.
+                    </div>
+                </div>
+                
+                <button id="contact-from-calc" class="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow transition duration-300 transform hover:scale-[1.02]" id="calculator-button">
+                    Pyydä tarkempi tarjous
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800" data-lang="fi">Ota yhteyttä</h2>
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 hidden" data-lang="en">Contact Us</h2>
+    <section id="contact" class="py-16 md:py-24 bg-green-700 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-3xl md:text-4xl text-white mb-4" id="contact-title">Ota Yhteyttä</h2>
+                <div class="w-24 h-1 bg-white bg-opacity-70 mx-auto"></div>
+            </div>
             
-            <div class="bg-white p-6 md:p-8 rounded-lg shadow-md">
-                <form id="contact-form" action="https://formspree.io/f/xzzaydbz" method="POST">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="name" class="block text-gray-700 mb-2" data-lang="fi">Nimi</label>
-                            <label for="name" class="block text-gray-700 mb-2 hidden" data-lang="en">Name</label>
-                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 border rounded-lg focus:border-primary">
+            <div class="max-w-4xl mx-auto">
+                <form id="contact-form" action="https://formspree.io/f/xqkrzvzv" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-white mb-2" id="contact-label1">Valitse palvelut (voit valita useita)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <label class="flex items-center bg-green-800 bg-opacity-50 hover:bg-opacity-70 px-4 py-2 rounded-lg transition">
+                                <input type="checkbox" name="services[]" value="Nurmikon leikkaus" class="rounded border-green-300 text-green-600 focus:ring-green-500">
+                                <span class="ml-2" id="contact-option1">Nurmikon leikkaus</span>
+                            </label>
+                            <label class="flex items-center bg-green-800 bg-opacity-50 hover:bg-opacity-70 px-4 py-2 rounded-lg transition">
+                                <input type="checkbox" name="services[]" value="Lumityöt" class="rounded border-green-300 text-green-600 focus:ring-green-500">
+                                <span class="ml-2" id="contact-option2">Lumityöt</span>
+                            </label>
+                            <label class="flex items-center bg-green-800 bg-opacity-50 hover:bg-opacity-70 px-4 py-2 rounded-lg transition">
+                                <input type="checkbox" name="services[]" value="Pensaiden leikkaus" class="rounded border-green-300 text-green-600 focus:ring-green-500">
+                                <span class="ml-2" id="contact-option3">Pensaiden leikkaus</span>
+                            </label>
+                            <label class="flex items-center bg-green-800 bg-opacity-50 hover:bg-opacity-70 px-4 py-2 rounded-lg transition">
+                                <input type="checkbox" name="services[]" value="Lehtien haravointi" class="rounded border-green-300 text-green-600 focus:ring-green-500">
+                                <span class="ml-2" id="contact-option4">Lehtien haravointi</span>
+                            </label>
+                            <label class="flex items-center bg-green-800 bg-opacity-50 hover:bg-opacity-70 px-4 py-2 rounded-lg transition">
+                                <input type="checkbox" name="services[]" value="Kastelu" class="rounded border-green-300 text-green-600 focus:ring-green-500">
+                                <span class="ml-2" id="contact-option5">Kastelu</span>
+                            </label>
+                            <label class="flex items-center bg-green-800 bg-opacity-50 hover:bg-opacity-70 px-4 py-2 rounded-lg transition">
+                                <input type="checkbox" name="services[]" value="Muut palvelut" class="rounded border-green-300 text-green-600 focus:ring-green-500">
+                                <span class="ml-2" id="contact-option6">Muut palvelut</span>
+                            </label>
                         </div>
-                        <div>
-                            <label for="email" class="block text-gray-700 mb-2" data-lang="fi">Sähköposti</label>
-                            <label for="email" class="block text-gray-700 mb-2 hidden" data-lang="en">Email</label>
-                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:border-primary">
-                        </div>
                     </div>
-                    <div class="mb-6">
-                        <label for="phone" class="block text-gray-700 mb-2" data-lang="fi">Puhelinnumero</label>
-                        <label for="phone" class="block text-gray-700 mb-2 hidden" data-lang="en">Phone number</label>
-                        <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border rounded-lg focus:border-primary">
+<div>
+                        <label for="contact-name" class="block text-sm font-medium text-white mb-1" id="contact-label2">Nimi</label>
+                        <input type="text" id="contact-name" name="name" required class="w-full px-4 py-2 rounded-lg border border-green-500 bg-green-800 text-white placeholder-green-300 focus:ring-2 focus:ring-white focus:border-white">
                     </div>
-                    <div class="mb-6">
-                        <label for="service" class="block text-gray-700 mb-2" data-lang="fi">Kiinnostava palvelu</label>
-                        <label for="service" class="block text-gray-700 mb-2 hidden" data-lang="en">Service of interest</label>
-                        <select id="service" name="service" class="w-full px-4 py-2 border rounded-lg focus:border-primary">
-                            <option value="" data-lang="fi">Valitse palvelu</option>
-                            <option value="" class="hidden" data-lang="en">Select service</option>
-                            <option value="lawn-mowing" data-lang="fi">Ruohonleikkuu</option>
-                            <option value="lawn-mowing" class="hidden" data-lang="en">Lawn Mowing</option>
-                            <option value="snow-removal" data-lang="fi">Lumityöt</option>
-                            <option value="snow-removal" class="hidden" data-lang="en">Snow Removal</option>
-                            <option value="leaf-raking" data-lang="fi">Lehtien haravointi</option>
-                            <option value="leaf-raking" class="hidden" data-lang="en">Leaf Raking</option>
-                            <option value="bush-trimming" data-lang="fi">Pensaan leikkuu</option>
-                            <option value="bush-trimming" class="hidden" data-lang="en">Bush Trimming</option>
-                            <option value="other" data-lang="fi">Muu palvelu</option>
-                            <option value="other" class="hidden" data-lang="en">Other service</option>
-                        </select>
+                    <div>
+                        <label for="contact-email" class="block text-sm font-medium text-white mb-1" id="contact-label3">Sähköposti</label>
+                        <input type="email" id="contact-email" name="email" required class="w-full px-4 py-2 rounded-lg border border-green-500 bg-green-800 text-white placeholder-green-300 focus:ring-2 focus:ring-white focus:border-white">
                     </div>
-                    <div class="mb-6">
-                        <label for="message" class="block text-gray-700 mb-2" data-lang="fi">Viesti</label>
-                        <label for="message" class="block text-gray-700 mb-2 hidden" data-lang="en">Message</label>
-                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border rounded-lg focus:border-primary"></textarea>
+                    <div>
+                        <label for="contact-phone" class="block text-sm font-medium text-white mb-1" id="contact-label4">Puhelinnumero</label>
+                        <input type="tel" id="contact-phone" name="phone" class="w-full px-4 py-2 rounded-lg border border-green-500 bg-green-800 text-white placeholder-green-300 focus:ring-2 focus:ring-white focus:border-white">
                     </div>
-                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-green-700 transition" data-lang="fi">Lähetä viesti</button>
-                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-green-700 transition hidden" data-lang="en">Send message</button>
+                    <div>
+                        <label for="contact-address" class="block text-sm font-medium text-white mb-1" id="contact-label5">Osoite (valinnainen)</label>
+                        <input type="text" id="contact-address" name="address" class="w-full px-4 py-2 rounded-lg border border-green-500 bg-green-800 text-white placeholder-green-300 focus:ring-2 focus:ring-white focus:border-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="contact-message" class="block text-sm font-medium text-white mb-1" id="contact-label6">Viesti</label>
+                        <textarea id="contact-message" name="message" rows="4" class="w-full px-4 py-2 rounded-lg border border-green-500 bg-green-800 text-white placeholder-green-300 focus:ring-2 focus:ring-white focus:border-white"></textarea>
+                    </div>
+                    <div class="md:col-span-2 flex justify-center">
+                        <button type="submit" class="px-10 py-3 bg-white text-green-700 hover:bg-green-50 font-bold rounded-lg shadow-lg transition duration-300 transform hover:scale-105" id="contact-button">
+                            Lähetä viesti
+                        </button>
+                    </div>
                 </form>
                 
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="flex items-center">
-                        <div class="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
-                            <i data-feather="mail" class="text-primary"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-700" data-lang="fi">Sähköposti</h4>
-                            <h4 class="font-bold text-gray-700 hidden" data-lang="en">Email</h4>
-                            <p class="text-gray-600">info@viherveikot.fi</p>
-                        </div>
+                <div id="form-success" class="hidden mt-6 p-4 bg-green-800 rounded-lg text-center">
+                    <div class="flex justify-center mb-2">
+                        <i data-feather="check-circle" class="text-green-300 w-12 h-12"></i>
                     </div>
-                    <div class="flex items-center">
-                        <div class="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
-                            <i data-feather="phone" class="text-primary"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-700" data-lang="fi">Puhelin</h4>
-                            <h4 class="font-bold text-gray-700 hidden" data-lang="en">Phone</h4>
-                            <p class="text-gray-600">+358 40 123 4567</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="bg-primary bg-opacity-10 p-3 rounded-full mr-4">
-                            <i data-feather="map-pin" class="text-primary"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-700" data-lang="fi">Toimipaikka</h4>
-                            <h4 class="font-bold text-gray-700 hidden" data-lang="en">Location</h4>
-                            <p class="text-gray-600" data-lang="fi">Helsinki, Suomi</p>
-                            <p class="text-gray-600 hidden" data-lang="en">Helsinki, Finland</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="py-16 bg-primary text-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12" data-lang="fi">Asiakkaiden mielipiteet</h2>
-            <h2 class="text-3xl font-bold text-center mb-12 hidden" data-lang="en">Customer Reviews</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white bg-opacity-10 p-6 rounded-lg">
-                    <div class="flex mb-4">
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent"></i>
-                    </div>
-                    <p class="mb-4 italic" data-lang="fi">"Viherveikot hoiti nurmikoni leikkaamisen täydellisesti. Ajoittavat aina sopivasti ja alue on aikin siististi siivottu jälkeenpäin."</p>
-                    <p class="mb-4 italic hidden" data-lang="en">"Viherveikot did a perfect job mowing my lawn. They always time it right and the area is neatly cleaned up afterwards."</p>
-                    <div class="flex items-center">
-                        <img src="http://static.photos/people/200x200/1" alt="Customer" class="h-10 w-10 rounded-full mr-3">
-                        <div>
-                            <h4 class="font-bold">Anna K.</h4>
-                            <p class="text-sm opacity-80" data-lang="fi">Espoo</p>
-                            <p class="text-sm opacity-80 hidden" data-lang="en">Espoo</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white bg-opacity-10 p-6 rounded-lg">
-                    <div class="flex mb-4">
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent"></i>
-                    </div>
-                    <p class="mb-4 italic" data-lang="fi">"Talvisin lumityöt ovat olleet huolettomia Viherveikkojen ansiosta. Lisäksi sorakerros on pitänyt pihan turvallisena jäisillä keleillä."</p>
-                    <p class="mb-4 italic hidden" data-lang="en">"Winter snow removal has been worry-free thanks to Viherveikot. The gravel layer has also kept the yard safe in icy conditions."</p>
-                    <div class="flex items-center">
-                        <img src="http://static.photos/people/200x200/2" alt="Customer" class="h-10 w-10 rounded-full mr-3">
-                        <div>
-                            <h4 class="font-bold">Mikko T.</h4>
-                            <p class="text-sm opacity-80" data-lang="fi">Vantaa</p>
-                            <p class="text-sm opacity-80 hidden" data-lang="en">Vantaa</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white bg-opacity-10 p-6 rounded-lg">
-                    <div class="flex mb-4">
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent mr-1"></i>
-                        <i data-feather="star" class="text-accent"></i>
-                    </div>
-                    <p class="mb-4 italic" data-lang="fi">"Pensaitemme ovat saaneet ammattitaitoista hoitoa ja näyttävät nyt upeilta. Kiitos loistavasta työstä!"</p>
-                    <p class="mb-4 italic hidden" data-lang="en">"Our bushes have received professional care and now look amazing. Thanks for the great work!"</p>
-                    <div class="flex items-center">
-                        <img src="http://static.photos/people/200x200/3" alt="Customer" class="h-10 w-10 rounded-full mr-3">
-                        <div>
-                            <h4 class="font-bold">Liisa M.</h4>
-                            <p class="text-sm opacity-80" data-lang="fi">Helsinki</p>
-                            <p class="text-sm opacity-80 hidden" data-lang="en">Helsinki</p>
-                        </div>
-                    </div>
+                    <h3 class="text-xl font-bold mb-2" id="success-title">Viestisi on lähetetty!</h3>
+                    <p id="success-text">Otamme sinuun yhteyttä mahdollisimman pian.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="bg-green-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <div class="flex items-center mb-4">
-                        <img src="Logo(official_1).svg" alt="Viherveikot Logo" class="h-16 w-16 rounded-full mr-3">
-                        <span class="font-bold text-xl">Viherveikot</span>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="http://static.photos/green/200x200/42" alt="ViherVeikot Logo" class="h-10 w-10 rounded-full">
+                        <h3 class="title-font text-xl">ViherVeikot</h3>
                     </div>
-                    <p class="text-gray-400" data-lang="fi">Ammattitaitoista puutarhanhoitoa pääkaupunkiseudulla vuodesta 2010.</p>
-                    <p class="text-gray-400 hidden" data-lang="en">Professional garden care services in the capital region since 2010.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4" data-lang="fi">Linkit</h4>
-                    <h4 class="font-bold text-lg mb-4 hidden" data-lang="en">Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#services" class="text-gray-400 hover:text-white transition" data-lang="fi">Palvelut</a></li>
-                        <li><a href="#services" class="text-gray-400 hover:text-white transition hidden" data-lang="en">Services</a></li>
-                        <li><a href="#calculator" class="text-gray-400 hover:text-white transition" data-lang="fi">Hinta-arvio</a></li>
-                        <li><a href="#calculator" class="text-gray-400 hover:text-white transition hidden" data-lang="en">Price Estimate</a></li>
-                        <li><a href="#about" class="text-gray-400 hover:text-white transition" data-lang="fi">Meistä</a></li>
-                        <li><a href="#about" class="text-gray-400 hover:text-white transition hidden" data-lang="en">About Us</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white transition" data-lang="fi">Ota yhteyttä</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white transition hidden" data-lang="en">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4" data-lang="fi">Yhteystiedot</h4>
-                    <h4 class="font-bold text-lg mb-4 hidden" data-lang="en">Contact</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li class="flex items-center"><i data-feather="mail" class="w-4 h-4 mr-2"></i> info@viherveikot.fi</li>
-                        <li class="flex items-center"><i data-feather="phone" class="w-4 h-4 mr-2"></i> +358 40 123 4567</li>
-                        <li class="flex items-center"><i data-feather="map-pin" class="w-4 h-4 mr-2"></i> <span data-lang="fi">Helsinki, Suomi</span><span class="hidden" data-lang="en">Helsinki, Finland</span></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4" data-lang="fi">Seuraa meitä</h4>
-                    <h4 class="font-bold text-lg mb-4 hidden" data-lang="en">Follow Us</h4>
+                    <p class="text-green-200 mb-4" id="footer-about">
+                        Kolmen miehen tiimi, joka hoitaa viheralueesi ammattitaidolla ja intohimolla.
+                    </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="bg-gray-800 p-2 rounded-full hover:bg-gray-700 transition"><i data-feather="facebook"></i></a>
-                        <a href="#" class="bg-gray-800 p-2 rounded-full hover:bg-gray-700 transition"><i data-feather="instagram"></i></a>
-                        <a href="#" class="bg-gray-800 p-2 rounded-full hover:bg-gray-700 transition"><i data-feather="twitter"></i></a>
-                    </div>
-                    <div class="mt-6">
-                        <p class="text-gray-400 text-sm" data-lang="fi">© 2023 Viherveikot. Kaikki oikeudet pidätetään.</p>
-                        <p class="text-gray-400 text-sm hidden" data-lang="en">© 2023 Viherveikot. All rights reserved.</p>
+                        <a href="#" class="text-green-300 hover:text-white">
+                            <i data-feather="facebook"></i>
+                        </a>
+                        <a href="#" class="text-green-300 hover:text-white">
+                            <i data-feather="instagram"></i>
+                        </a>
+                        <a href="#" class="text-green-300 hover:text-white">
+                            <i data-feather="twitter"></i>
+                        </a>
                     </div>
                 </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4" id="footer-contact">Yhteystiedot</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-start">
+                            <i data-feather="mail" class="text-green-300 mt-1 mr-2"></i>
+                            <span>info@viherveikot.fi</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-feather="phone" class="text-green-300 mt-1 mr-2"></i>
+                            <span>+358 40 123 4567</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-feather="map-pin" class="text-green-300 mt-1 mr-2"></i>
+                            <span>Puutarhakatu 12, 00100 Helsinki</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4" id="footer-hours">Aukioloajat</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Ma-Pe</span>
+                            <span>07:00 - 18:00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>La</span>
+                            <span>09:00 - 15:00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Su</span>
+                            <span>Suljettu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-green-800 mt-8 pt-8 text-center text-green-300 text-sm">
+                <p id="footer-copyright">&copy; 2023 ViherVeikot. Kaikki oikeudet pidätetään.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-green-600 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+        <i data-feather="arrow-up"></i>
+    </button>
+
     <script>
-        // Language switcher
-        document.getElementById('fi-btn').addEventListener('click', function() {
-            document.querySelectorAll('[data-lang="fi"]').forEach(el => el.classList.remove('hidden'));
-            document.querySelectorAll('[data-lang="en"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById('fi-btn').classList.add('bg-primary', 'text-white');
-            document.getElementById('fi-btn').classList.remove('bg-gray-300');
-            document.getElementById('en-btn').classList.add('bg-gray-300');
-            document.getElementById('en-btn').classList.remove('bg-primary', 'text-white');
+        // Initialize Vanta.js background
+        VANTA.WAVES({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x5a9a6d,
+            shininess: 35.00,
+            waveHeight: 15.00,
+            waveSpeed: 0.50,
+            zoom: 0.75
         });
         
-        document.getElementById('en-btn').addEventListener('click', function() {
-            document.querySelectorAll('[data-lang="en"]').forEach(el => el.classList.remove('hidden'));
-            document.querySelectorAll('[data-lang="fi"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById('en-btn').classList.add('bg-primary', 'text-white');
-            document.getElementById('en-btn').classList.remove('bg-gray-300');
-            document.getElementById('fi-btn').classList.add('bg-gray-300');
-            document.getElementById('fi-btn').classList.remove('bg-primary', 'text-white');
-        });
-
         // Mobile menu toggle
-        document.getElementById('menu-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
-            this.innerHTML = menu.classList.contains('hidden') ? 
-                feather.icons.menu.toSvg() : feather.icons.x.toSvg();
+            feather.replace();
         });
-
-        // Price calculator
-        document.getElementById('calculate-btn').addEventListener('click', function() {
-            const area = parseFloat(document.getElementById('area').value) || 0;
-            const frequency = parseInt(document.getElementById('frequency').value);
-            let total = 0;
+        // Service options data
+        const serviceOptions = {
+            'Nurmikon leikkaus': [],
+            'Lumityöt': [
+                { name: 'Hiekoitus', price: 0.5, per: 'm²', desc: 'Hiekoitus aurauksen jälkeen' }
+            ],
+            'Pensaiden leikkaus': [
+                { name: 'Korkeus (>2m)', price: 10, per: 'kpl', desc: 'Korkeiden pensaiden leikkaus' }
+            ],
+            'Lehtien haravointi': [],
+            'Kastelu': []
+        };
+        // Price calculator logic
+        const serviceSelect = document.getElementById('service-select');
+        const measurementInput = document.getElementById('measurement-input');
+const frequencyBtns = document.querySelectorAll('.frequency-btn');
+        const estimatedPrice = document.getElementById('estimated-price');
+        const contactFromCalc = document.getElementById('contact-from-calc');
+        
+        let selectedFrequency = 'once';
+        
+        function updatePrice() {
+            const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const serviceName = serviceOption.text;
+            const basePrice = parseFloat(serviceOption.value);
+            const minPrice = parseFloat(serviceOption.dataset.min);
+            const maxPrice = parseFloat(serviceOption.dataset.max);
+            const ratePerUnit = parseFloat(serviceOption.dataset.rate);
             
-            // Base prices per service (per 100m²)
-            const prices = {
-                'lawn-mowing': 30 + (area * 0.15),
-                'snow-removal': 50 + (area * 0.20),
-                'leaf-raking': 40 + (area * 0.18),
-                'bush-trimming': 45 + (area * 0.10),
-                'watering': 25 + (area * 0.05),
-                'other': 0
-            };
+            const measurement = parseFloat(measurementInput.value) || 0;
+            let calculatedPrice = basePrice + (measurement * ratePerUnit);
             
-            // Calculate selected services
-            document.querySelectorAll('input[name="service"]:checked').forEach(service => {
-                total += prices[service.value] || 0;
+            // Calculate additional services
+            let extrasPrice = 0;
+            const checkboxes = document.querySelectorAll('input[name="extra-service"]:checked');
+            
+            checkboxes.forEach(checkbox => {
+                const extraPrice = parseFloat(checkbox.dataset.price);
+                const extraPer = checkbox.dataset.per;
+                
+                if (extraPer === 'm²') {
+                    extrasPrice += measurement * extraPrice;
+                } else {
+                    extrasPrice += extraPrice;
+                }
             });
             
-            // Add extras
-            if (document.getElementById('gravel').checked) {
-                total += 20 * frequency;
+            if (extrasPrice > 0) {
+                document.getElementById('extras-row').style.display = 'flex';
+                document.getElementById('extras-price').textContent = extrasPrice.toFixed(0) + '€';
+            } else {
+                document.getElementById('extras-row').style.display = 'none';
             }
-            if (document.getElementById('waste').checked) {
-                total += 15 * frequency;
+// Apply frequency multiplier
+            let frequencyMultiplier = 1;
+            switch(selectedFrequency) {
+                case 'weekly':
+                    frequencyMultiplier = 0.9; // 10% discount for weekly
+                    break;
+                case 'biweekly':
+                    frequencyMultiplier = 0.95; // 5% discount for biweekly
+                    break;
+                case 'monthly':
+                    frequencyMultiplier = 1; // No discount for monthly
+                    break;
             }
             
-            // Multiply by frequency
-            total *= frequency;
+            calculatedPrice = calculatedPrice * frequencyMultiplier;
             
-            // Display result
-            if (total > 0) {
-                document.getElementById('price').textContent = total.toFixed(2) + '€';
-                document.getElementById('estimate-result').classList.remove('hidden');
+            // Ensure price is within min/max bounds
+            calculatedPrice = Math.max(minPrice, Math.min(maxPrice, calculatedPrice));
+            
+            estimatedPrice.textContent = calculatedPrice.toFixed(0) + '€';
+        }
+        function updateServiceOptions() {
+            const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
+            const optionsContainer = document.getElementById('service-options');
+            optionsContainer.innerHTML = '';
+            
+            if (serviceOptions[serviceName] && serviceOptions[serviceName].length > 0) {
+                document.getElementById('additional-services').classList.remove('hidden');
+                
+                serviceOptions[serviceName].forEach(option => {
+                    const optionId = option.name.toLowerCase().replace(/\s+/g, '-');
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'flex items-center';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = optionId;
+                    checkbox.name = 'extra-service';
+                    checkbox.className = 'rounded border-green-300 text-green-600 focus:ring-green-500 mr-2';
+                    checkbox.dataset.price = option.price;
+                    checkbox.dataset.per = option.per;
+                    checkbox.addEventListener('change', updatePrice);
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = optionId;
+                    label.className = 'text-sm text-gray-700';
+                    label.innerHTML = `${option.name} (+${option.price}€/${option.per}) <span class="text-gray-500 text-xs">${option.desc}</span>`;
+                    
+                    optionDiv.appendChild(checkbox);
+                    optionDiv.appendChild(label);
+                    optionsContainer.appendChild(optionDiv);
+                });
+            } else {
+                document.getElementById('additional-services').classList.add('hidden');
+            }
+        }
+        function updateMeasurementLabel() {
+            const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const measurementType = serviceOption.dataset.measure;
+            const unit = serviceOption.dataset.unit;
+            
+            let label = '';
+            switch(measurementType) {
+                case 'area':
+                    label = 'Pinta-ala';
+                    measurementInput.min = 10;
+                    measurementInput.max = 1000;
+                    break;
+                case 'bush':
+                    label = 'Pensaiden määrä';
+                    measurementInput.min = 1;
+                    measurementInput.max = 50;
+                    break;
+                default:
+                    label = 'Mittaus';
+            }
+            
+            document.getElementById('measurement-label').textContent = `${label} (${unit})`;
+            document.getElementById('measurement-unit').textContent = unit;
+        }
+        serviceSelect.addEventListener('change', function() {
+            updateMeasurementLabel();
+            updateServiceOptions();
+            updatePrice();
+        });
+        
+        measurementInput.addEventListener('input', updatePrice);
+frequencyBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedFrequency = this.dataset.freq;
+                
+                frequencyBtns.forEach(b => {
+                    b.classList.remove('bg-green-600', 'text-white');
+                    b.classList.add('bg-green-100', 'text-green-700');
+                });
+                
+                this.classList.remove('bg-green-100', 'text-green-700');
+                this.classList.add('bg-green-600', 'text-white');
+                
+                updatePrice();
+            });
+        });
+        
+        // Set first frequency button as active
+        if (frequencyBtns.length > 0) {
+            frequencyBtns[0].classList.remove('bg-green-100', 'text-green-700');
+            frequencyBtns[0].classList.add('bg-green-600', 'text-white');
+        }
+        
+        // Contact from calculator button
+        contactFromCalc.addEventListener('click', function() {
+        const serviceOption = serviceSelect.options[serviceSelect.selectedIndex].text;
+        const area = areaSize.value;
+        const frequencyText = document.querySelector('.frequency-btn.bg-green-600').textContent;
+        
+        window.location.href = `#contact`;
+        
+        // Set values in contact form
+        const checkboxes = document.querySelectorAll('input[name="services[]"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+            if (checkbox.value === serviceOption) {
+                checkbox.checked = true;
             }
         });
-
-        // Initialize feather icons
+        document.getElementById('contact-message').value = `Palvelu: ${serviceOption}\nPinta-ala: ${area}m²\nToistuvuus: ${frequencyText}\n\nLisätiedot:`;
+// Scroll to contact form
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Contact form submission
+        const contactForm = document.getElementById('contact-form');
+        const formSuccess = document.getElementById('form-success');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            fetch(e.target.action, {
+                method: 'POST',
+                body: new FormData(e.target),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    contactForm.reset();
+                    contactForm.classList.add('hidden');
+                    formSuccess.classList.remove('hidden');
+                    feather.replace();
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Language switching functionality
+        const translations = {
+            fi: {
+                'hero-title': 'Kotisi Viheralueiden Hoitajat',
+                'hero-subtitle': 'Ammattitaitoista hoitoa puutarhanhoidosta lumityöhön - kolmen miehen tiimi, johon voit luottaa',
+                'hero-button1': 'Pyydä tarjous',
+                'hero-button2': 'Hinta-arvio',
+                'about-title': 'Tietoa Meistä',
+                'about-subtitle': 'Kolme ystävää, yksi intohimo',
+                'about-text1': 'Me olemme kolmen hengen tiimi, joka rakastaa viheralueiden hoitoa ja puutarhanhoitoa. Tavoitteemme on tarjota laadukasta ja luotettavaa palvelua, joka tekee asiakkaistamme tyytyväisiä.',
+                'about-text2': 'Vuosien kokemuksella ja intohimolla työtämme kohtaan olemme keränneet runsaasti tietotaitoa erilaisista viheralueiden hoidon tehtävistä. Oli kyseessä sitten nurmikon leikkaus, lehtien haravointi, pensaiden leikkaus tai lumen kasaaminen, me teemme sen ammattitaidolla.',
+                'about-feature1': 'Ammattitaitoa',
+                'about-feature2': 'Luotettavuus',
+                'about-feature3': 'Ystävällisyys',
+                'services-title': 'Palvelumme',
+                'service1-title': 'Nurmikon leikkaus',
+                'service1-desc': 'Ammattimainen nurmikon leikkaus ja viimeistely, joka pitää nurmikkosi terveenä ja kauniina koko kasvukauden ajan.',
+                'service1-price': 'Alkaen: 30€/kerta',
+                'service2-title': 'Lumityöt',
+                'service2-desc': 'Luotettava lumen kasaaminen ja auraus talvisin. Tarjoamme säännöllistä aurauspalvelua tai tilausperusteista kasaamista.',
+                'service2-price': 'Alkaen: 40€/kerta',
+                'service3-title': 'Pensaiden leikkaus',
+                'service3-desc': 'Pensaat ja pensasaitat kuntoon ammattitaidolla. Leikkaamme, muotoilemme ja raivaamme kasvustot terveiksi ja kauniiksi.',
+                'service3-price': 'Alkaen: 25€/kerta',
+                'service4-title': 'Lehtien haravointi',
+                'service4-desc': 'Syksyisin tarjoamme lehtien haravointia ja viheralueiden siistimistä, jotta pihasi pysyy siistinä ja turvallisena.',
+                'service4-price': 'Alkaen: 35€/kerta',
+                'service5-title': 'Kastelu',
+                'service5-desc': 'Autamme kastelussa erityisesti kesän kuivina aikoina, jotta kasvit ja nurmikko pysyvät terveinä ja viherinä.',
+                'service5-price': 'Alkaen: 20€/kerta',
+                'service6-title': 'Muut palvelut',
+                'service6-desc': 'Tarjoamme myös muita viheralueiden hoitoon liittyviä palveluja, kuten multaus, lannoitus ja kasvien istutus.',
+                'service6-price': 'Hinta sopimuksen mukaan',
+                'calculator-title': 'Hinta-arvio',
+                'calculator-label1': 'Valitse palvelu',
+                'calculator-label2': 'Pinta-ala (m²)',
+                'calculator-label3': 'Toistuvuus',
+                'calculator-estimate': 'Arvioitu hinta:',
+                'calculator-note': '* Tämä on vain arvio. Tarkka hinta määritellään tarkemmin paikan päällä.',
+                'calculator-button': 'Pyydä tarkempi tarjous',
+                'service-option1': 'Nurmikon leikkaus',
+                'service-option2': 'Lumityöt',
+                'service-option3': 'Pensaiden leikkaus',
+                'service-option4': 'Lehtien haravointi',
+                'service-option5': 'Kastelu',
+                'contact-title': 'Ota Yhteyttä',
+                'contact-label1': 'Valitse palvelut (voit valita useita)',
+'contact-label2': 'Nimi',
+                'contact-label3': 'Sähköposti',
+                'contact-label4': 'Puhelinnumero',
+                'contact-label5': 'Osoite (valinnainen)',
+                'contact-label6': 'Viesti',
+                'contact-button': 'Lähetä viesti',
+                'contact-option0': 'Valitse palvelu',
+                'contact-option1': 'Nurmikon leikkaus',
+                'contact-option2': 'Lumityöt',
+                'contact-option3': 'Pensaiden leikkaus',
+                'contact-option4': 'Lehtien haravointi',
+                'contact-option5': 'Kastelu',
+                'contact-option6': 'Muu palvelu',
+                'success-title': 'Viestisi on lähetetty!',
+                'success-text': 'Otamme sinuun yhteyttä mahdollisimman pian.',
+                'footer-about': 'Kolmen miehen tiimi, joka hoitaa viheralueesi ammattitaidolla ja intohimolla.',
+                'footer-contact': 'Yhteystiedot',
+                'footer-hours': 'Aukioloajat',
+                'footer-copyright': '© 2023 ViherVeikot. Kaikki oikeudet pidätetään.'
+            },
+            sv: {
+                'hero-title': 'Din Gräsklippingsspecialist',
+                'hero-subtitle': 'Professionell skötsel av din trädgård - ett tremannalag du kan lita på',
+                'hero-button1': 'Begär offert',
+                'hero-button2': 'Prisberäkning',
+                'about-title': 'Om Oss',
+                'about-subtitle': 'Tre vänner, en passion',
+                'about-text1': 'Vi är ett tremannalag som älskar att sköta trädgårdar. Vårt mål är att erbjuda högkvalitativ och pålitlig service som gör våra kunder nöjda.',
+                'about-text2': 'Med års erfarenhet och passion för vårt arbete har vi samlat en stor kunskap om olika trädgårdsskötseluppgifter. Oavsett om det gäller gräsklippning, lövkrattning, busktrimning eller snöskottning gör vi det med professionell skicklighet.',
+                'about-feature1': 'Expertis',
+                'about-feature2': 'Pålitlighet',
+                'about-feature3': 'Vänlighet',
+                'services-title': 'Våra Tjänster',
+                'service1-title': 'Gräsklippning',
+                'service1-desc': 'Professionell gräsklippning och trimning som håller din gräsmatta frisk och vacker under hela säsongen.',
+                'service1-price': 'Från: 30€/tillfälle',
+                'service2-title': 'Snöröjning',
+                'service2-desc': 'Pålitlig snöröjning och plogning på vintern. Vi erbjuder regelbunden plogning eller tillfällig röjning.',
+                'service2-price': 'Från: 40€/tillfälle',
+                'service3-title': 'Busktrimning',
+                'service3-desc': 'Vi trimmar och formar buskar och häckar med professionell skicklighet för att hålla dem friska och vackra.',
+                'service3-price': 'Från: 25€/tillfälle',
+                'service4-title': 'Lövkrattning',
+                'service4-desc': 'På hösten erbjuder vi lövkrattning och städning av grönytor så att din tomt förblir snygg och säker.',
+                'service4-price': 'Från: 35€/tillfälle',
+                'service5-title': 'Vattning',
+                'service5-desc': 'Vi hjälper till med vattning, särskilt under torra somrar, för att hålla dina växter och gräsmatta friska och gröna.',
+                'service5-price': 'Från: 20€/tillfälle',
+                'service6-title': 'Andra tjänster',
+                'service6-desc': 'Vi erbjuder även andra tjänster relaterade till trädgårdsskötsel, såsom mulching, gödsling och plantering av växter.',
+                'service6-price': 'Pris efter överenskommelse',
+                'calculator-title': 'Prisberäkning',
+                'calculator-label1': 'Välj tjänst',
+                'calculator-label2': 'Yta (m²)',
+                'calculator-label3': 'Frekvens',
+                'calculator-estimate': 'Beräknat pris:',
+                'calculator-note': '* Detta är endast en uppskattning. Exakt pris fastställs mer noggrant på plats.',
+                'calculator-button': 'Begär mer exakt offert',
+                'service-option1': 'Gräsklippning',
+                'service-option2': 'Snöröjning',
+                'service-option3': 'Busktrimning',
+                'service-option4': 'Lövkrattning',
+                'service-option5': 'Vattning',
+                'contact-title': 'Kontakta Oss',
+                'contact-label1': 'Välj tjänster (flera val möjliga)',
+'contact-label2': 'Namn',
+                'contact-label3': 'E-post',
+                'contact-label4': 'Telefonnummer',
+                'contact-label5': 'Adress (valfritt)',
+                'contact-label6': 'Meddelande',
+                'contact-button': 'Skicka meddelande',
+                'contact-option0': 'Välj tjänst',
+                'contact-option1': 'Gräsklippning',
+                'contact-option2': 'Snöröjning',
+                'contact-option3': 'Busktrimning',
+                'contact-option4': 'Lövkrattning',
+                'contact-option5': 'Vattning',
+                'contact-option6': 'Annan tjänst',
+                'success-title': 'Ditt meddelande har skickats!',
+                'success-text': 'Vi kontaktar dig så snart som möjligt.',
+                'footer-about': 'Ett tremannalag som sköter din trädgård med professionell skicklighet och passion.',
+                'footer-contact': 'Kontaktuppgifter',
+                'footer-hours': 'Öppettider',
+                'footer-copyright': '© 2023 ViherVeikot. Alla rättigheter reserverade.'
+            },
+            en: {
+                'hero-title': 'Your Garden Care Specialists',
+                'hero-subtitle': 'Professional care from lawn mowing to snow removal - a three-man team you can trust',
+                'hero-button1': 'Request a Quote',
+                'hero-button2': 'Price Estimate',
+                'about-title': 'About Us',
+                'about-subtitle': 'Three friends, one passion',
+                'about-text1': 'We are a three-person team that loves garden care and maintenance. Our goal is to provide high-quality and reliable service that makes our customers happy.',
+                'about-text2': 'With years of experience and passion for our work, we have gathered extensive know-how in various gardening tasks. Whether it\'s lawn mowing, leaf raking, bush trimming or snow shoveling, we do it with professional skill.',
+                'about-feature1': 'Expertise',
+                'about-feature2': 'Reliability',
+                'about-feature3': 'Friendliness',
+                'services-title': 'Our Services',
+                'service1-title': 'Lawn Mowing',
+                'service1-desc': 'Professional lawn mowing and trimming that keeps your grass healthy and beautiful throughout the growing season.',
+                'service1-price': 'From: 30€/visit',
+                'service2-title': 'Snow Removal',
+                'service2-desc': 'Reliable snow shoveling and plowing in winter. We offer regular plowing service or on-demand shoveling.',
+                'service2-price': 'From: 40€/visit',
+                'service3-title': 'Bush Trimming',
+                'service3-desc': 'Bushes and hedges in shape with professional skill. We trim, shape and clear foliage to keep them healthy and beautiful.',
+                'service3-price': 'From: 25€/visit',
+                'service4-title': 'Leaf Raking',
+                'service4-desc': 'In autumn we offer leaf raking and garden cleanup to keep your yard tidy and safe.',
+                'service4-price': 'From: 35€/visit',
+                'service5-title': 'Watering',
+                'service5-desc': 'We help with watering especially during dry summers to keep your plants and lawn healthy and green.',
+                'service5-price': 'From: 20€/visit',
+                'service6-title': 'Other Services',
+                'service6-desc': 'We also offer other garden care related services such as mulching, fertilizing and plant installation.',
+                'service6-price': 'Price upon agreement',
+                'calculator-title': 'Price Estimate',
+                'calculator-label1': 'Select Service',
+                'calculator-label2': 'Area (m²)',
+                'calculator-label3': 'Frequency',
+                'calculator-estimate': 'Estimated Price:',
+                'calculator-note': '* This is just an estimate. Exact price will be determined more accurately on site.',
+                'calculator-button': 'Request More Accurate Quote',
+                'service-option1': 'Lawn Mowing',
+                'service-option2': 'Snow Removal',
+                'service-option3': 'Bush Trimming',
+                'service-option4': 'Leaf Raking',
+                'service-option5': 'Watering',
+                'contact-title': 'Contact Us',
+                'contact-label1': 'Select services (multiple choices allowed)',
+'contact-label2': 'Name',
+                'contact-label3': 'Email',
+                'contact-label4': 'Phone Number',
+                'contact-label5': 'Address (optional)',
+                'contact-label6': 'Message',
+                'contact-button': 'Send Message',
+                'contact-option0': 'Select service',
+                'contact-option1': 'Lawn Mowing',
+                'contact-option2': 'Snow Removal',
+                'contact-option3': 'Bush Trimming',
+                'contact-option4': 'Leaf Raking',
+                'contact-option5': 'Watering',
+                'contact-option6': 'Other Service',
+                'success-title': 'Your Message Has Been Sent!',
+                'success-text': 'We will contact you as soon as possible.',
+                'footer-about': 'A three-man team that takes care of your garden with professional skill and passion.',
+                'footer-contact': 'Contact Information',
+                'footer-hours': 'Opening Hours',
+                'footer-copyright': '© 2023 ViherVeikot. All Rights Reserved.'
+            }
+        };
+        
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[id]');
+            
+            elements.forEach(element => {
+                if (translations[lang] && translations[lang][element.id]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][element.id];
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = translations[lang][element.id];
+                    } else {
+                        element.textContent = translations[lang][element.id];
+                    }
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Update active language button
+            document.querySelectorAll('.language-selector').forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-green-100', 'text-green-800');
+            });
+            
+            document.querySelector(`.language-selector[onclick="changeLanguage('${lang}')"]`).classList.remove('bg-green-100', 'text-green-800');
+            document.querySelector(`.language-selector[onclick="changeLanguage('${lang}')"]`).classList.add('bg-green-600', 'text-white');
+        }
+        
+        // Initialize with Finnish language
+        changeLanguage('fi');
+        // Initialize UI
+        updateMeasurementLabel();
+        updateServiceOptions();
         feather.replace();
-    </script>
+        updatePrice();
+</script>
 </body>
 </html>

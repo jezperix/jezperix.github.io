@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViherVeikot - Hinta-arvio</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .title-font {
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-green-50">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="http://static.photos/green/200x200/42" alt="ViherVeikot Logo" class="h-12 w-12 rounded-full">
+                <h1 class="title-font text-2xl md:text-3xl text-green-600">ViherVeikot</h1>
+            </div>
+            
+            <nav class="flex items-center space-x-4">
+                <a href="index.html" class="px-3 py-1 text-green-700 hover:text-green-500 font-medium">Etusivu</a>
+                <button id="mobile-menu-button" class="md:hidden">
+                    <i data-feather="menu"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Calculator Section -->
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-green-600 text-white p-6">
+                    <h2 class="title-font text-2xl md:text-3xl">Hinta-arvio</h2>
+                    <p class="text-green-100">Saat nopean arvion palveluidemme hinnoista</p>
+                </div>
+                
+                <div class="p-6 md:p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label for="service-select" class="block text-sm font-medium text-green-700 mb-1">Valitse palvelu</label>
+                            <select id="service-select" class="w-full px-4 py-2 rounded-lg border border-green-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <option value="30" data-min="30" data-max="80" data-rate="0.8" data-measure="area" data-unit="m²">Nurmikon leikkaus</option>
+                                <option value="40" data-min="40" data-max="120" data-rate="1.2" data-measure="area" data-unit="m²">Lumityöt</option>
+                                <option value="25" data-min="25" data-max="60" data-rate="0.5" data-measure="bush" data-unit="kpl">Pensaiden leikkaus</option>
+                                <option value="35" data-min="35" data-max="90" data-rate="0.7" data-measure="area" data-unit="m²">Lehtien haravointi</option>
+                                <option value="20" data-min="20" data-max="50" data-rate="0.3" data-measure="area" data-unit="m²">Kastelu</option>
+                            </select>
+</div>
+                        <div>
+                            <label for="measurement-input" class="block text-sm font-medium text-green-700 mb-1" id="measurement-label">Pinta-ala (m²)</label>
+                            <div class="flex">
+                                <input type="number" id="measurement-input" min="1" max="1000" value="100" class="w-full px-4 py-2 rounded-l-lg border border-green-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <span id="measurement-unit" class="flex items-center px-4 bg-green-100 text-green-800 rounded-r-lg border border-l-0 border-green-300">m²</span>
+                            </div>
+                            <div id="additional-services" class="mt-4 hidden">
+                                <label class="block text-sm font-medium text-green-700 mb-2">Lisäpalvelut</label>
+                                <div id="service-options" class="space-y-2"></div>
+                            </div>
+</div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-green-700 mb-2">Toistuvuus</label>
+                        <div class="flex flex-wrap gap-3">
+                            <button data-freq="once" class="frequency-btn px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">Kerta</button>
+                            <button data-freq="weekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Viikottain</button>
+                            <button data-freq="biweekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">2 viikon välein</button>
+                            <button data-freq="monthly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Kuukausittain</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 rounded-lg p-6 shadow-inner mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-700">Perushinta:</span>
+                            <span id="base-price" class="text-lg text-green-700">30€</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2" id="extras-row" style="display: none;">
+                            <span class="text-gray-700">Lisäpalvelut:</span>
+                            <span id="extras-price" class="text-lg text-green-700">0€</span>
+                        </div>
+                        <div class="border-t border-green-200 my-2"></div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-700 font-medium">Yhteensä:</span>
+                            <span id="estimated-price" class="text-2xl font-bold text-green-700">30€</span>
+                        </div>
+<div class="text-sm text-gray-500 italic">
+                            * Tämä on vain arvio. Tarkka hinta määritellään tarkemmin paikan päällä.
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="index.html#contact" class="flex-1 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow text-center transition duration-300 transform hover:scale-[1.02]">
+                            Pyydä tarkempi tarjous
+                        </a>
+                        <button id="reset-calc" class="flex-1 px-6 py-3 bg-white hover:bg-green-50 text-green-700 font-bold rounded-lg shadow transition duration-300 transform hover:scale-[1.02]">
+                            Nollaa laskuri
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Info Section -->
+    <section class="py-16 bg-green-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="title-font text-3xl text-green-700 mb-2">Palvelumme</h2>
+                <div class="w-24 h-1 bg-green-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="sun" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700">Nurmikon leikkaus</h3>
+                    </div>
+                    <p class="text-gray-700">
+                        Ammattimainen nurmikon leikkaus ja viimeistely, joka pitää nurmikkosi terveenä ja kauniina.
+                    </p>
+                </div>
+                
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="cloud-snow" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700">Lumityöt</h3>
+                    </div>
+                    <p class="text-gray-700">
+                        Luotettava lumen kasaaminen ja auraus talvisin. Tarjoamme säännöllistä aurauspalvelua.
+                    </p>
+                </div>
+                
+                <div class="service-card bg-white p-6 rounded-xl shadow-lg transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i data-feather="scissors" class="text-green-600 w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-green-700">Pensaiden leikkaus</h3>
+                    </div>
+                    <p class="text-gray-700">
+                        Pensaat ja pensasaitat kuntoon ammattitaidolla. Leikkaamme ja muotoilemme kasvustot.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-green-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="http://static.photos/green/200x200/42" alt="ViherVeikot Logo" class="h-10 w-10 rounded-full">
+                        <h3 class="title-font text-xl">ViherVeikot</h3>
+                    </div>
+                    <p class="text-green-200 mb-4">
+                        Kolmen miehen tiimi, joka hoitaa viheralueesi ammattitaidolla ja intohimolla.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Yhteystiedot</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-start">
+                            <i data-feather="mail" class="text-green-300 mt-1 mr-2"></i>
+                            <span>info@viherveikot.fi</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-feather="phone" class="text-green-300 mt-1 mr-2"></i>
+                            <span>+358 40 123 4567</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-green-800 mt-8 pt-8 text-center text-green-300 text-sm">
+                <p>&copy; 2023 ViherVeikot. Kaikki oikeudet pidätetään.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Service options data
+        const serviceOptions = {
+            'Nurmikon leikkaus': [],
+            'Lumityöt': [
+                { name: 'Hiekoitus', price: 0.5, per: 'm²', desc: 'Hiekoitus aurauksen jälkeen' }
+            ],
+            'Pensaiden leikkaus': [
+                { name: 'Korkeus (>2m)', price: 10, per: 'kpl', desc: 'Korkeiden pensaiden leikkaus' }
+            ],
+            'Lehtien haravointi': [],
+            'Kastelu': []
+        };
+
+        // Price calculator logic
+        const serviceSelect = document.getElementById('service-select');
+        const measurementInput = document.getElementById('measurement-input');
+const frequencyBtns = document.querySelectorAll('.frequency-btn');
+        const estimatedPrice = document.getElementById('estimated-price');
+        const resetCalcBtn = document.getElementById('reset-calc');
+        
+        let selectedFrequency = 'once';
+        
+        function updatePrice() {
+            const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const serviceName = serviceOption.text;
+            const basePrice = parseFloat(serviceOption.value);
+            const minPrice = parseFloat(serviceOption.dataset.min);
+            const maxPrice = parseFloat(serviceOption.dataset.max);
+            const ratePerUnit = parseFloat(serviceOption.dataset.rate);
+            
+            const measurement = parseFloat(measurementInput.value) || 0;
+            let calculatedPrice = basePrice + (measurement * ratePerUnit);
+            
+            // Calculate additional services
+            let extrasPrice = 0;
+            const checkboxes = document.querySelectorAll('input[name="extra-service"]:checked');
+            
+            checkboxes.forEach(checkbox => {
+                const extraPrice = parseFloat(checkbox.dataset.price);
+                const extraPer = checkbox.dataset.per;
+                
+                if (extraPer === 'm²') {
+                    extrasPrice += measurement * extraPrice;
+                } else {
+                    extrasPrice += extraPrice;
+                }
+            });
+            
+            if (extrasPrice > 0) {
+                document.getElementById('extras-row').style.display = 'flex';
+                document.getElementById('extras-price').textContent = extrasPrice.toFixed(0) + '€';
+            } else {
+                document.getElementById('extras-row').style.display = 'none';
+            }
+// Apply frequency multiplier
+            let frequencyMultiplier = 1;
+            switch(selectedFrequency) {
+                case 'weekly':
+                    frequencyMultiplier = 0.9; // 10% discount for weekly
+                    break;
+                case 'biweekly':
+                    frequencyMultiplier = 0.95; // 5% discount for biweekly
+                    break;
+                case 'monthly':
+                    frequencyMultiplier = 1; // No discount for monthly
+                    break;
+            }
+            
+            calculatedPrice = calculatedPrice * frequencyMultiplier;
+            
+            // Ensure price is within min/max bounds
+            calculatedPrice = Math.max(minPrice, Math.min(maxPrice, calculatedPrice));
+            
+            estimatedPrice.textContent = calculatedPrice.toFixed(0) + '€';
+        }
+        
+        function resetCalculator() {
+            serviceSelect.selectedIndex = 0;
+            areaSize.value = 100;
+            
+            frequencyBtns.forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-green-100', 'text-green-700');
+            });
+            
+            frequencyBtns[0].classList.remove('bg-green-100', 'text-green-700');
+            frequencyBtns[0].classList.add('bg-green-600', 'text-white');
+            
+            selectedFrequency = 'once';
+            updatePrice();
+        }
+        function updateServiceOptions() {
+            const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
+            const optionsContainer = document.getElementById('service-options');
+            optionsContainer.innerHTML = '';
+            
+            if (serviceOptions[serviceName] && serviceOptions[serviceName].length > 0) {
+                document.getElementById('additional-services').classList.remove('hidden');
+                
+                serviceOptions[serviceName].forEach(option => {
+                    const optionId = option.name.toLowerCase().replace(/\s+/g, '-');
+                    
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'flex items-center';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = optionId;
+                    checkbox.name = 'extra-service';
+                    checkbox.className = 'rounded border-green-300 text-green-600 focus:ring-green-500 mr-2';
+                    checkbox.dataset.price = option.price;
+                    checkbox.dataset.per = option.per;
+                    checkbox.addEventListener('change', updatePrice);
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = optionId;
+                    label.className = 'text-sm text-gray-700';
+                    label.innerHTML = `${option.name} (+${option.price}€/${option.per}) <span class="text-gray-500 text-xs">${option.desc}</span>`;
+                    
+                    optionDiv.appendChild(checkbox);
+                    optionDiv.appendChild(label);
+                    optionsContainer.appendChild(optionDiv);
+                });
+            } else {
+                document.getElementById('additional-services').classList.add('hidden');
+            }
+        }
+
+        function updateMeasurementLabel() {
+            const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const measurementType = serviceOption.dataset.measure;
+            const unit = serviceOption.dataset.unit;
+            
+            let label = '';
+            switch(measurementType) {
+                case 'area':
+                    label = 'Pinta-ala';
+                    measurementInput.min = 10;
+                    measurementInput.max = 1000;
+                    break;
+                case 'bush':
+                    label = 'Pensaiden määrä';
+                    measurementInput.min = 1;
+                    measurementInput.max = 50;
+                    break;
+                default:
+                    label = 'Mittaus';
+            }
+            
+            document.getElementById('measurement-label').textContent = `${label} (${unit})`;
+            document.getElementById('measurement-unit').textContent = unit;
+        }
+
+        serviceSelect.addEventListener('change', function() {
+            updateMeasurementLabel();
+            updateServiceOptions();
+            updatePrice();
+        });
+        
+        measurementInput.addEventListener('input', updatePrice);
+frequencyBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedFrequency = this.dataset.freq;
+                
+                frequencyBtns.forEach(b => {
+                    b.classList.remove('bg-green-600', 'text-white');
+                    b.classList.add('bg-green-100', 'text-green-700');
+                });
+                
+                this.classList.remove('bg-green-100', 'text-green-700');
+                this.classList.add('bg-green-600', 'text-white');
+                
+                updatePrice();
+            });
+        });
+        
+        resetCalcBtn.addEventListener('click', resetCalculator);
+        
+        // Set first frequency button as active
+        if (frequencyBtns.length > 0) {
+            frequencyBtns[0].classList.remove('bg-green-100', 'text-green-700');
+            frequencyBtns[0].classList.add('bg-green-600', 'text-white');
+        }
+        // Initialize UI
+        updateMeasurementLabel();
+        updateServiceOptions();
+        feather.replace();
+        updatePrice();
+</script>
+</body>
+</html>

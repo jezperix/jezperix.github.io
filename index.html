@@ -257,11 +257,11 @@
                     <div>
                         <label for="service-select" class="block text-sm font-medium text-green-700 mb-1" id="calculator-label1">Valitse palvelu</label>
                     <select id="service-select" class="w-full px-4 py-2 rounded-lg border border-green-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                        <option value="30" data-min="30" data-max="80" data-rate="0.8" data-measure="area" data-unit="m²" id="service-option1">Nurmikon leikkaus</option>
-                        <option value="40" data-min="40" data-max="120" data-rate="1.2" data-measure="area" data-unit="m²" id="service-option2">Lumityöt</option>
-                        <option value="25" data-min="25" data-max="60" data-rate="0.5" data-measure="bush" data-unit="kpl" id="service-option3">Pensaiden leikkaus</option>
-                        <option value="35" data-min="35" data-max="90" data-rate="0.7" data-measure="area" data-unit="m²" id="service-option4">Lehtien haravointi</option>
-                        <option value="20" data-min="20" data-max="50" data-rate="0.3" data-measure="area" data-unit="m²" id="service-option5">Kastelu</option>
+                        <option value="30" data-min="30" data-rate="0.8" data-measure="area" data-unit="m²" id="service-option1">Nurmikon leikkaus</option>
+                        <option value="40" data-min="40" data-rate="1.2" data-measure="area" data-unit="m²" id="service-option2">Lumityöt</option>
+                        <option value="25" data-min="25" data-rate="0.5" data-measure="bush" data-unit="kpl" id="service-option3">Pensaiden leikkaus</option>
+                        <option value="35" data-min="35" data-rate="0.7" data-measure="area" data-unit="m²" id="service-option4">Lehtien haravointi</option>
+                        <option value="20" data-min="20" data-rate="0.3" data-measure="area" data-unit="m²" id="service-option5">Kastelu</option>
                     </select>
 </div>
                     <div>
@@ -271,7 +271,7 @@
                         <span id="measurement-unit" class="flex items-center px-4 bg-green-100 text-green-800 rounded-r-lg border border-l-0 border-green-300">m²</span>
                     </div>
                     <div id="additional-services" class="mt-4 hidden">
-                        <label class="block text-sm font-medium text-green-700 mb-2">Lisäpalvelut</label>
+                        <label id="calculator-addons-label" class="block text-sm font-medium text-green-700 mb-2">Lisäpalvelut</label>
                         <div id="service-options" class="space-y-2"></div>
                     </div>
 </div>
@@ -279,16 +279,16 @@
                 
                 <div class="bg-white rounded-lg p-6 shadow-inner mb-6">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-gray-700">Perushinta:</span>
+                        <span id="calculator-base-label" class="text-gray-700">Perushinta:</span>
                         <span id="base-price" class="text-lg text-green-700">30€</span>
                     </div>
                     <div class="flex justify-between items-center mb-2" id="extras-row" style="display: none;">
-                        <span class="text-gray-700">Lisäpalvelut:</span>
+                        <span id="calculator-extras-label" class="text-gray-700">Lisäpalvelut:</span>
                         <span id="extras-price" class="text-lg text-green-700">0€</span>
                     </div>
                     <div class="border-t border-green-200 my-2"></div>
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-gray-700 font-medium">Yhteensä:</span>
+                        <span id="calculator-total-label" class="text-gray-700 font-medium">Yhteensä:</span>
                         <span id="estimated-price" class="text-2xl font-bold text-green-700">30€</span>
                     </div>
 <div class="text-sm text-gray-500 italic" id="calculator-note">
@@ -296,8 +296,8 @@
                     </div>
                 </div>
                 
-                <button id="contact-from-calc" class="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow transition duration-300 transform hover:scale-[1.02]" id="calculator-button">
-                    Pyydä tarkempi tarjous
+                <button id="contact-from-calc" class="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow transition duration-300 transform hover:scale-[1.02]">
+                    <span id="calculator-button-text">Pyydä tarkempi tarjous</span>
                 </button>
             </div>
         </div>
@@ -497,12 +497,11 @@
         
         function updatePrice() {
             const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
-            const serviceName = serviceOption.text;
             const basePrice = parseFloat(serviceOption.value);
-            const minPrice = parseFloat(serviceOption.dataset.min);
-            const maxPrice = parseFloat(serviceOption.dataset.max);
-            const ratePerUnit = parseFloat(serviceOption.dataset.rate);
-            
+            const minPriceAttr = serviceOption.dataset.min;
+            const minPrice = Number.isNaN(parseFloat(minPriceAttr)) ? basePrice : parseFloat(minPriceAttr);
+            const ratePerUnit = parseFloat(serviceOption.dataset.rate) || 0;
+
             const measurement = parseFloat(measurementInput.value) || 0;
             let calculatedPrice = basePrice + (measurement * ratePerUnit);
             
@@ -527,8 +526,10 @@
             } else {
                 document.getElementById('extras-row').style.display = 'none';
             }
-            // Ensure price is within min/max bounds
-            calculatedPrice = Math.max(minPrice, Math.min(maxPrice, calculatedPrice));
+               calculatedPrice += extrasPrice;
+               
+            // Enforce a sensible minimum without capping large jobs
+            calculatedPrice = Math.max(minPrice, calculatedPrice);
             
             estimatedPrice.textContent = calculatedPrice.toFixed(0) + '€';
         }
@@ -572,24 +573,38 @@
             const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
             const measurementType = serviceOption.dataset.measure;
             const unit = serviceOption.dataset.unit;
-            
-            let label = '';
-            switch(measurementType) {
+
+            let labelKey = 'measurement-label-generic';
+            let fallbackKey = 'generic';
+
+            switch (measurementType) {
                 case 'area':
-                    label = 'Pinta-ala';
+                    labelKey = 'measurement-label-area';
+                    fallbackKey = 'area';
                     measurementInput.min = 10;
                     measurementInput.max = 1000;
                     break;
                 case 'bush':
-                    label = 'Pensaiden määrä';
+                    labelKey = 'measurement-label-bush';
+                    fallbackKey = 'bush';
                     measurementInput.min = 1;
                     measurementInput.max = 50;
                     break;
                 default:
-                    label = 'Mittaus';
+                    measurementInput.min = 1;
+                    measurementInput.max = 1000;
             }
-            
-            document.getElementById('measurement-label').textContent = `${label} (${unit})`;
+
+            const localeStrings = translations[currentLanguage] || {};
+            const fallbackLabels = {
+                area: 'Pinta-ala',
+                bush: 'Pensaiden määrä',
+                generic: 'Mittaus'
+            };
+
+            const baseLabel = localeStrings[labelKey] || fallbackLabels[fallbackKey] || fallbackLabels.generic;
+
+            document.getElementById('measurement-label').textContent = `${baseLabel} (${unit})`;
             document.getElementById('measurement-unit').textContent = unit;
         }
         serviceSelect.addEventListener('change', function() {
@@ -665,8 +680,9 @@
             });
         });
         
-        // Language switching functionality
-        const translations = {
+    // Language switching functionality
+    let currentLanguage = 'fi';
+    const translations = {
             fi: {
                 'hero-title': 'Kotisi viheralueiden hoitajat',
                 'hero-subtitle': 'Ammattitaitoista hoitoa puutarhanhoidosta lumityöhön - kolmen miehen tiimi, johon voit luottaa',
@@ -701,10 +717,17 @@
                 'calculator-title': 'Hinta-arvio',
                 'calculator-label1': 'Valitse palvelu',
                 'calculator-label2': 'Pinta-ala (m²)',
-                'calculator-label3': 'Toistuvuus',
                 'calculator-estimate': 'Arvioitu hinta:',
                 'calculator-note': '* Tämä on vain arvio. Tarkka hinta määritellään tarkemmin paikan päällä.',
                 'calculator-button': 'Pyydä tarkempi tarjous',
+                'calculator-addons-label': 'Lisäpalvelut',
+                'calculator-base-label': 'Perushinta:',
+                'calculator-extras-label': 'Lisäpalvelut:',
+                'calculator-total-label': 'Yhteensä:',
+                'calculator-button-text': 'Pyydä tarkempi tarjous',
+                'measurement-label-area': 'Pinta-ala',
+                'measurement-label-bush': 'Pensaiden määrä',
+                'measurement-label-generic': 'Mittaus',
                 'service-option1': 'Nurmikon leikkaus',
                 'service-option2': 'Lumityöt',
                 'service-option3': 'Pensaiden leikkaus',
@@ -770,6 +793,14 @@
                 'calculator-estimate': 'Beräknat pris:',
                 'calculator-note': '* Detta är endast en uppskattning. Exakt pris fastställs mer noggrant på plats.',
                 'calculator-button': 'Begär mer exakt offert',
+                'calculator-addons-label': 'Tilläggstjänster',
+                'calculator-base-label': 'Grundpris:',
+                'calculator-extras-label': 'Tillägg:',
+                'calculator-total-label': 'Totalt:',
+                'calculator-button-text': 'Begär mer exakt offert',
+                'measurement-label-area': 'Yta',
+                'measurement-label-bush': 'Antal buskar',
+                'measurement-label-generic': 'Mätning',
                 'service-option1': 'Gräsklippning',
                 'service-option2': 'Snöröjning',
                 'service-option3': 'Busktrimning',
@@ -835,6 +866,14 @@
                 'calculator-estimate': 'Estimated Price:',
                 'calculator-note': '* This is just an estimate. Exact price will be determined more accurately on site.',
                 'calculator-button': 'Request More Accurate Quote',
+                'calculator-addons-label': 'Additional Services',
+                'calculator-base-label': 'Base price:',
+                'calculator-extras-label': 'Extras:',
+                'calculator-total-label': 'Total:',
+                'calculator-button-text': 'Request More Accurate Quote',
+                'measurement-label-area': 'Area',
+                'measurement-label-bush': 'Number of bushes',
+                'measurement-label-generic': 'Measurement',
                 'service-option1': 'Lawn Mowing',
                 'service-option2': 'Snow Removal',
                 'service-option3': 'Bush Trimming',
@@ -865,6 +904,7 @@
         };
         
         function changeLanguage(lang) {
+            currentLanguage = lang;
             const elements = document.querySelectorAll('[id]');
             
             elements.forEach(element => {
@@ -890,6 +930,8 @@
             
             document.querySelector(`.language-selector[onclick="changeLanguage('${lang}')"]`).classList.remove('bg-green-100', 'text-green-800');
             document.querySelector(`.language-selector[onclick="changeLanguage('${lang}')"]`).classList.add('bg-green-600', 'text-white');
+
+            updateMeasurementLabel();
         }
         
         // Initialize with Finnish language

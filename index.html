@@ -277,16 +277,6 @@
 </div>
                 </div>
                 
-                <div class="mb-6">
-                    <label for="frequency" class="block text-sm font-medium text-green-700 mb-2" id="calculator-label3">Toistuvuus</label>
-                    <div class="flex flex-wrap gap-3">
-                        <button data-freq="once" class="frequency-btn px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">Kerta</button>
-                        <button data-freq="weekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Viikottain</button>
-                        <button data-freq="biweekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">2 viikon välein</button>
-                        <button data-freq="monthly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Kuukausittain</button>
-                    </div>
-                </div>
-                
                 <div class="bg-white rounded-lg p-6 shadow-inner mb-6">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-gray-700">Perushinta:</span>
@@ -500,13 +490,10 @@
             'Kastelu': []
         };
         // Price calculator logic
-        const serviceSelect = document.getElementById('service-select');
-        const measurementInput = document.getElementById('measurement-input');
-const frequencyBtns = document.querySelectorAll('.frequency-btn');
+    const serviceSelect = document.getElementById('service-select');
+    const measurementInput = document.getElementById('measurement-input');
         const estimatedPrice = document.getElementById('estimated-price');
         const contactFromCalc = document.getElementById('contact-from-calc');
-        
-        let selectedFrequency = 'once';
         
         function updatePrice() {
             const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
@@ -540,22 +527,6 @@ const frequencyBtns = document.querySelectorAll('.frequency-btn');
             } else {
                 document.getElementById('extras-row').style.display = 'none';
             }
-// Apply frequency multiplier
-            let frequencyMultiplier = 1;
-            switch(selectedFrequency) {
-                case 'weekly':
-                    frequencyMultiplier = 0.9; // 10% discount for weekly
-                    break;
-                case 'biweekly':
-                    frequencyMultiplier = 0.95; // 5% discount for biweekly
-                    break;
-                case 'monthly':
-                    frequencyMultiplier = 1; // No discount for monthly
-                    break;
-            }
-            
-            calculatedPrice = calculatedPrice * frequencyMultiplier;
-            
             // Ensure price is within min/max bounds
             calculatedPrice = Math.max(minPrice, Math.min(maxPrice, calculatedPrice));
             
@@ -628,34 +599,11 @@ const frequencyBtns = document.querySelectorAll('.frequency-btn');
         });
         
         measurementInput.addEventListener('input', updatePrice);
-frequencyBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                selectedFrequency = this.dataset.freq;
-                
-                frequencyBtns.forEach(b => {
-                    b.classList.remove('bg-green-600', 'text-white');
-                    b.classList.add('bg-green-100', 'text-green-700');
-                });
-                
-                this.classList.remove('bg-green-100', 'text-green-700');
-                this.classList.add('bg-green-600', 'text-white');
-                
-                updatePrice();
-            });
-        });
-        
-        // Set first frequency button as active
-        if (frequencyBtns.length > 0) {
-            frequencyBtns[0].classList.remove('bg-green-100', 'text-green-700');
-            frequencyBtns[0].classList.add('bg-green-600', 'text-white');
-        }
-        
+
         // Contact from calculator button
         contactFromCalc.addEventListener('click', function() {
         const serviceOption = serviceSelect.options[serviceSelect.selectedIndex].text;
-        const area = areaSize.value;
-        const frequencyText = document.querySelector('.frequency-btn.bg-green-600').textContent;
+    const area = measurementInput.value;
         
         window.location.href = `#contact`;
         
@@ -667,7 +615,7 @@ frequencyBtns.forEach(btn => {
                 checkbox.checked = true;
             }
         });
-        document.getElementById('contact-message').value = `Palvelu: ${serviceOption}\nPinta-ala: ${area}m²\nToistuvuus: ${frequencyText}\n\nLisätiedot:`;
+    document.getElementById('contact-message').value = `Palvelu: ${serviceOption}\nPinta-ala: ${area}m²\n\nLisätiedot:`;
 // Scroll to contact form
             document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
         });

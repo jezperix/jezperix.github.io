@@ -305,16 +305,36 @@
 
     <!-- Bush Divider -->
     <div class="relative -mt-8 md:-mt-12" aria-hidden="true">
-        <svg class="block w-full" viewBox="0 0 1440 180" preserveAspectRatio="none">
+        <svg class="block w-full" viewBox="0 0 1440 220" preserveAspectRatio="none">
             <defs>
                 <linearGradient id="bushGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#bbf7d0" stop-opacity="0.9" />
-                    <stop offset="60%" stop-color="#4ade80" stop-opacity="0.85" />
+                    <stop offset="0%" stop-color="#bbf7d0" stop-opacity="0.95" />
+                    <stop offset="55%" stop-color="#4ade80" stop-opacity="0.9" />
                     <stop offset="100%" stop-color="#047857" stop-opacity="1" />
                 </linearGradient>
+                <radialGradient id="leafHighlight" cx="50%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#ecfdf5" stop-opacity="0.85" />
+                    <stop offset="70%" stop-color="#bbf7d0" stop-opacity="0.1" />
+                    <stop offset="100%" stop-color="#bbf7d0" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="shadowSweep" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#022c22" stop-opacity="0" />
+                    <stop offset="50%" stop-color="#064e3b" stop-opacity="0.25" />
+                    <stop offset="100%" stop-color="#022c22" stop-opacity="0" />
+                </linearGradient>
             </defs>
-            <path fill="url(#bushGradient)" d="M0,120 C100,150 170,80 260,110 C350,140 420,60 520,100 C620,140 700,60 800,100 C900,140 980,70 1070,110 C1160,150 1260,80 1360,120 C1410,140 1440,130 1440,130 L1440,180 L0,180 Z"></path>
-            <path fill="#047857" fill-opacity="0.55" d="M0,140 C130,100 210,170 320,120 C430,70 520,160 620,110 C720,60 820,160 940,100 C1060,40 1180,150 1300,90 C1380,50 1440,90 1440,90 L1440,180 L0,180 Z"></path>
+            <path fill="url(#bushGradient)" d="M0,130 C90,170 160,90 250,120 C340,150 420,70 520,110 C620,150 690,70 780,110 C870,150 950,80 1040,120 C1130,160 1220,90 1310,125 C1375,150 1440,135 1440,135 L1440,220 L0,220 Z"></path>
+            <path fill="#059669" fill-opacity="0.5" d="M0,155 C120,105 200,185 310,135 C420,85 520,180 630,130 C740,80 850,175 970,120 C1090,65 1200,170 1320,110 C1395,75 1440,120 1440,120 L1440,220 L0,220 Z"></path>
+            <path fill="url(#shadowSweep)" d="M0,170 C160,140 320,210 480,170 C640,130 800,210 960,170 C1120,130 1280,210 1440,170 L1440,220 L0,220 Z"></path>
+            <g opacity="0.4">
+                <circle cx="160" cy="150" r="35" fill="url(#leafHighlight)" />
+                <circle cx="340" cy="135" r="28" fill="url(#leafHighlight)" />
+                <circle cx="520" cy="155" r="30" fill="url(#leafHighlight)" />
+                <circle cx="700" cy="140" r="32" fill="url(#leafHighlight)" />
+                <circle cx="880" cy="160" r="27" fill="url(#leafHighlight)" />
+                <circle cx="1060" cy="145" r="34" fill="url(#leafHighlight)" />
+                <circle cx="1240" cy="165" r="29" fill="url(#leafHighlight)" />
+            </g>
         </svg>
     </div>
 

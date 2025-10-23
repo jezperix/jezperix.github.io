@@ -650,7 +650,7 @@
                 event.preventDefault();
 
                 const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
-                const targetY = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+                const targetY = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 8;
 
                 window.scrollTo({
                     top: targetY,

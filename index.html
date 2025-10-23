@@ -64,10 +64,10 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-6 shadow-lg">
             <div class="flex flex-col space-y-3">
-                <a href="#about" class="text-lg text-green-700 hover:text-green-500">Tietoa meistä</a>
-                <a href="#services" class="text-lg text-green-700 hover:text-green-500">Palvelut</a>
-                <a href="#calculator" class="text-lg text-green-700 hover:text-green-500">Hinta-arvio</a>
-<a href="#contact" class="text-lg text-green-700 hover:text-green-500">Ota yhteyttä</a>
+                <a href="#about" class="scroll-link text-lg text-green-700 hover:text-green-500">Tietoa meistä</a>
+                <a href="#services" class="scroll-link text-lg text-green-700 hover:text-green-500">Palvelut</a>
+                <a href="#calculator" class="scroll-link text-lg text-green-700 hover:text-green-500">Hinta-arvio</a>
+<a href="#contact" class="scroll-link text-lg text-green-700 hover:text-green-500">Ota yhteyttä</a>
             </div>
         </div>
     </header>
@@ -83,10 +83,10 @@
                     Ammattitaitoista hoitoa puutarhanhoidosta lumityöhön - kolmen miehen tiimi, johon voit luottaa
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#contact" class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                    <a href="#contact" class="scroll-link px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105">
                         <span id="hero-button1">Pyydä tarjous</span>
                     </a>
-                <a href="#calculator" class="px-8 py-4 bg-white hover:bg-green-50 text-green-700 font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                <a href="#calculator" class="scroll-link px-8 py-4 bg-white hover:bg-green-50 text-green-700 font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105">
                     <span id="hero-button2">Hinta-arvio</span>
                 </a>
 </div>
@@ -630,6 +630,38 @@
         });
         
         measurementInput.addEventListener('input', updatePrice);
+
+        const smoothLinks = document.querySelectorAll('a.scroll-link[href^="#"]');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const siteHeader = document.querySelector('header');
+
+        smoothLinks.forEach(link => {
+            link.addEventListener('click', event => {
+                const hash = link.getAttribute('href');
+                if (!hash || hash === '#') {
+                    return;
+                }
+
+                const target = document.querySelector(hash);
+                if (!target) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                const headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
+                const targetY = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+
+                window.scrollTo({
+                    top: targetY,
+                    behavior: 'smooth'
+                });
+
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
 
         // Contact from calculator button
         contactFromCalc.addEventListener('click', function() {

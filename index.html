@@ -303,8 +303,24 @@
         </div>
     </section>
 
+    <!-- Bush Divider -->
+    <div class="relative -mt-8 md:-mt-12" aria-hidden="true">
+        <svg class="block w-full" viewBox="0 0 1440 180" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="bushGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#bbf7d0" stop-opacity="0.9" />
+                    <stop offset="60%" stop-color="#4ade80" stop-opacity="0.85" />
+                    <stop offset="100%" stop-color="#047857" stop-opacity="1" />
+                </linearGradient>
+            </defs>
+            <path fill="url(#bushGradient)" d="M0,120 C100,150 170,80 260,110 C350,140 420,60 520,100 C620,140 700,60 800,100 C900,140 980,70 1070,110 C1160,150 1260,80 1360,120 C1410,140 1440,130 1440,130 L1440,180 L0,180 Z"></path>
+            <path fill="#047857" fill-opacity="0.55" d="M0,140 C130,100 210,170 320,120 C430,70 520,160 620,110 C720,60 820,160 940,100 C1060,40 1180,150 1300,90 C1380,50 1440,90 1440,90 L1440,180 L0,180 Z"></path>
+        </svg>
+    </div>
+
     <!-- Contact Section -->
-    <section id="contact" class="py-16 md:py-24 bg-green-700 text-white">
+    <section id="contact" class="relative py-16 md:py-24 bg-green-700 text-white overflow-hidden">
+        <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-green-200/30 via-green-600/30 to-transparent mix-blend-soft-light"></div>
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="title-font text-3xl md:text-4xl text-white mb-4" id="contact-title">Ota Yhteyttä</h2>

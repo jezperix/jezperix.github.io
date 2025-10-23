@@ -257,11 +257,11 @@
                     <div>
                         <label for="service-select" class="block text-sm font-medium text-green-700 mb-1" id="calculator-label1">Valitse palvelu</label>
                     <select id="service-select" class="w-full px-4 py-2 rounded-lg border border-green-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                        <option value="30" data-min="30" data-rate="0.8" data-measure="area" data-unit="m²" id="service-option1">Nurmikon leikkaus</option>
-                        <option value="40" data-min="40" data-rate="1.2" data-measure="area" data-unit="m²" id="service-option2">Lumityöt</option>
-                        <option value="25" data-min="25" data-rate="0.5" data-measure="bush" data-unit="kpl" id="service-option3">Pensaiden leikkaus</option>
-                        <option value="35" data-min="35" data-rate="0.7" data-measure="area" data-unit="m²" id="service-option4">Lehtien haravointi</option>
-                        <option value="20" data-min="20" data-rate="0.3" data-measure="area" data-unit="m²" id="service-option5">Kastelu</option>
+                        <option value="30" data-min="30" data-max="80" data-rate="0.8" data-measure="area" data-unit="m²" id="service-option1">Nurmikon leikkaus</option>
+                        <option value="40" data-min="40" data-max="120" data-rate="1.2" data-measure="area" data-unit="m²" id="service-option2">Lumityöt</option>
+                        <option value="25" data-min="25" data-max="60" data-rate="0.5" data-measure="bush" data-unit="kpl" id="service-option3">Pensaiden leikkaus</option>
+                        <option value="35" data-min="35" data-max="90" data-rate="0.7" data-measure="area" data-unit="m²" id="service-option4">Lehtien haravointi</option>
+                        <option value="20" data-min="20" data-max="50" data-rate="0.3" data-measure="area" data-unit="m²" id="service-option5">Kastelu</option>
                     </select>
 </div>
                     <div>
@@ -275,6 +275,16 @@
                         <div id="service-options" class="space-y-2"></div>
                     </div>
 </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="frequency" class="block text-sm font-medium text-green-700 mb-2" id="calculator-label3">Toistuvuus</label>
+                    <div class="flex flex-wrap gap-3">
+                        <button data-freq="once" class="frequency-btn px-4 py-2 bg-green-600 text-white rounded-full text-sm font-medium">Kerta</button>
+                        <button data-freq="weekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Viikottain</button>
+                        <button data-freq="biweekly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">2 viikon välein</button>
+                        <button data-freq="monthly" class="frequency-btn px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">Kuukausittain</button>
+                    </div>
                 </div>
                 
                 <div class="bg-white rounded-lg p-6 shadow-inner mb-6">
@@ -492,24 +502,19 @@
         // Price calculator logic
         const serviceSelect = document.getElementById('service-select');
         const measurementInput = document.getElementById('measurement-input');
+const frequencyBtns = document.querySelectorAll('.frequency-btn');
         const estimatedPrice = document.getElementById('estimated-price');
         const contactFromCalc = document.getElementById('contact-from-calc');
-        const basePriceDisplay = document.getElementById('base-price');
+        
+        let selectedFrequency = 'once';
         
         function updatePrice() {
             const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
-<<<<<<< HEAD
-            const basePrice = parseFloat(serviceOption.value) || 0;
-            const minPriceAttr = serviceOption.dataset.min;
-            const minPriceValue = parseFloat(minPriceAttr);
-            const minPrice = Number.isNaN(minPriceValue) ? basePrice : minPriceValue;
-            const ratePerUnit = parseFloat(serviceOption.dataset.rate) || 0;
-=======
+            const serviceName = serviceOption.text;
             const basePrice = parseFloat(serviceOption.value);
-            const minPriceAttr = serviceOption.dataset.min;
-            const minPrice = Number.isNaN(parseFloat(minPriceAttr)) ? basePrice : parseFloat(minPriceAttr);
-            const ratePerUnit = parseFloat(serviceOption.dataset.rate) || 0;
->>>>>>> b565d841c6ce7f4dbcb089e9d60e097b68e70c16
+            const minPrice = parseFloat(serviceOption.dataset.min);
+            const maxPrice = parseFloat(serviceOption.dataset.max);
+            const ratePerUnit = parseFloat(serviceOption.dataset.rate);
             
             const measurement = parseFloat(measurementInput.value) || 0;
             let calculatedPrice = basePrice + (measurement * ratePerUnit);
@@ -535,16 +540,6 @@
             } else {
                 document.getElementById('extras-row').style.display = 'none';
             }
-<<<<<<< HEAD
-            calculatedPrice += extrasPrice;
-
-            // Ensure a sensible minimum while allowing large jobs
-            calculatedPrice = Math.max(minPrice, calculatedPrice);
-
-            basePriceDisplay.textContent = `${basePrice.toFixed(0)}€`;
-            estimatedPrice.textContent = `${calculatedPrice.toFixed(0)}€`;
-=======
-            calculatedPrice += extrasPrice;
 // Apply frequency multiplier
             let frequencyMultiplier = 1;
             switch(selectedFrequency) {
@@ -561,11 +556,10 @@
             
             calculatedPrice = calculatedPrice * frequencyMultiplier;
             
-            // Enforce a sensible minimum without capping large jobs
-            calculatedPrice = Math.max(minPrice, calculatedPrice);
+            // Ensure price is within min/max bounds
+            calculatedPrice = Math.max(minPrice, Math.min(maxPrice, calculatedPrice));
             
             estimatedPrice.textContent = calculatedPrice.toFixed(0) + '€';
->>>>>>> b565d841c6ce7f4dbcb089e9d60e097b68e70c16
         }
         function updateServiceOptions() {
             const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
@@ -634,31 +628,33 @@
         });
         
         measurementInput.addEventListener('input', updatePrice);
+frequencyBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedFrequency = this.dataset.freq;
+                
+                frequencyBtns.forEach(b => {
+                    b.classList.remove('bg-green-600', 'text-white');
+                    b.classList.add('bg-green-100', 'text-green-700');
+                });
+                
+                this.classList.remove('bg-green-100', 'text-green-700');
+                this.classList.add('bg-green-600', 'text-white');
+                
+                updatePrice();
+            });
+        });
+        
+        // Set first frequency button as active
+        if (frequencyBtns.length > 0) {
+            frequencyBtns[0].classList.remove('bg-green-100', 'text-green-700');
+            frequencyBtns[0].classList.add('bg-green-600', 'text-white');
+        }
         
         // Contact from calculator button
         contactFromCalc.addEventListener('click', function() {
-<<<<<<< HEAD
-            const serviceOption = serviceSelect.options[serviceSelect.selectedIndex].text;
-            const area = measurementInput.value;
-            const unitLabel = document.getElementById('measurement-unit').textContent;
-
-            window.location.href = `#contact`;
-
-            // Set values in contact form
-            const checkboxes = document.querySelectorAll('input[name="services[]"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = false;
-                if (checkbox.value === serviceOption) {
-                    checkbox.checked = true;
-                }
-            });
-
-            document.getElementById('contact-message').value = `Palvelu: ${serviceOption}\nPinta-ala: ${area} ${unitLabel}\n\nLisätiedot:`;
-
-            // Scroll to contact form
-=======
         const serviceOption = serviceSelect.options[serviceSelect.selectedIndex].text;
-    const area = measurementInput.value;
+        const area = areaSize.value;
         const frequencyText = document.querySelector('.frequency-btn.bg-green-600').textContent;
         
         window.location.href = `#contact`;
@@ -673,7 +669,6 @@
         });
         document.getElementById('contact-message').value = `Palvelu: ${serviceOption}\nPinta-ala: ${area}m²\nToistuvuus: ${frequencyText}\n\nLisätiedot:`;
 // Scroll to contact form
->>>>>>> b565d841c6ce7f4dbcb089e9d60e097b68e70c16
             document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
         });
         
